@@ -1,0 +1,8 @@
+/* Estilos comunes de RRHH. Cada sección añade su propio .css con clases prefijadas (p. ej. .fichaje-...) */
+.rrhh-tabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:2px solid var(--line);margin-bottom:24px}
+.rrhh-tabs a{padding:10px 16px;text-decoration:none;color:var(--muted);font-weight:600;border-bottom:3px solid transparent;margin-bottom:-2px}
+.rrhh-tabs a:hover{color:var(--ink)}
+.rrhh-tabs a[aria-current=page]{color:var(--ink);border-bottom-color:var(--yellow)}
+.pendiente{background:#fff;border:1px dashed var(--muted);border-radius:8px;padding:24px;max-width:640px;display:grid;gap:12px}
+.pendiente ul{padding-left:20px}
+.pendiente .sesion{background:var(--steel);border-radius:6px;padding:10px 14px;font-size:.9rem}
