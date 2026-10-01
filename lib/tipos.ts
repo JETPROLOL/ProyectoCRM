@@ -7,7 +7,10 @@ export type Oportunidad = {
   valor_estimado: number | null; empleado_id: string | null;
 };
 export type Empresa = { id: string; nombre: string; ubicacion: string };
-export type Empleado = { id: string; nombre: string; email: string; telefono: string; empresa_id: string | null };
+export type Empleado = {
+  id: string; nombre: string; email: string; telefono: string; empresa_id: string | null;
+  puesto: string | null; foto_path: string | null; estado: "activo" | "baja"; user_id: string | null;
+};
 
 export const euros = (n: number) =>
   n.toLocaleString("es-ES", { style: "currency", currency: "EUR", maximumFractionDigits: 0 });
