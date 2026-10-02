@@ -1,0 +1,26 @@
+/* Sección Ficha (persona A). Todas las clases llevan el prefijo .ficha- */
+.ficha-barra{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:20px}
+.ficha-barra .buscar{flex:1;min-width:220px;max-width:none}
+.ficha-barra select{width:auto}
+
+.ficha-tarjeta{font:inherit;text-align:left;cursor:pointer;width:100%;grid-template-columns:auto 1fr;align-items:center;gap:14px;position:relative}
+.ficha-tarjeta:hover{box-shadow:0 6px 18px rgba(16,35,43,.12);transform:translateY(-2px);border-color:var(--teal)}
+.ficha-tarjeta[data-baja=true]{opacity:.6}
+.ficha-tarjeta .chip{position:absolute;top:10px;right:10px}
+.ficha-datos{display:grid;gap:2px;min-width:0}
+.ficha-datos b{font-size:1.05rem;color:var(--ink)}
+.ficha-datos span{color:var(--muted);font-size:.9rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+.ficha-foto{border-radius:50%;object-fit:cover;flex:none;display:block}
+.ficha-iniciales{display:grid;place-items:center;color:#fff;font-weight:700}
+.ficha-vacia{width:72px;height:72px;background:var(--steel);font-size:1.6rem}
+
+.ficha-subida{display:flex;gap:16px;align-items:center}
+.ficha-ayuda{color:var(--muted);font-size:.85rem;font-weight:400}
+.ficha-cerrar-aviso{background:none;border:0;text-decoration:underline;cursor:pointer;color:inherit;font:inherit}
+
+.ficha-mia{grid-template-columns:auto 1fr;gap:24px;max-width:560px;align-items:center}
+.ficha-mia h2{font-size:1.8rem}
+.ficha-mia dl{display:grid;grid-template-columns:auto 1fr;gap:4px 16px;margin-top:12px}
+.ficha-mia dt{color:var(--muted)}
+.ficha-mia dd{margin:0;word-break:break-word}
