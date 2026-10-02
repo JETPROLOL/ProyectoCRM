@@ -1,0 +1,155 @@
+/* Rediseño visual del CRM: blanco y negro, grises neutros.
+   Todo va acotado a .crm / .login para no afectar a la web pública (globals.css no se toca). */
+
+.crm, .login {
+  --ink: #0a0a0a; --teal: #0a0a0a; --yellow: #0a0a0a;
+  --steel: #f1f1f1; --paper: #fafafa; --muted: #6b6b6b; --line: #e4e4e4;
+  --ok: #0a0a0a; --bad: #0a0a0a;
+  --lat-w: 244px; --lat-w-c: 68px; --top-h: 60px;
+  font-size: 15px;
+}
+.crm :focus-visible, .login :focus-visible { outline: 2px solid #0a0a0a; outline-offset: 2px; }
+.crm .lateral :focus-visible { outline-color: #fff; }
+
+/* Tipografía sobria */
+.crm h1, .crm h2, .crm h3, .login h1 { font-family: var(--f-body), system-ui, sans-serif; font-weight: 600; letter-spacing: -.01em; line-height: 1.2; }
+.crm .panel h1 { font-size: 1.6rem; }
+.crm .detalle-cab h1 { font-size: 1.6rem; }
+.crm .subtitulo { font-size: 1.05rem; margin-bottom: 14px; }
+.crm .col-cab h2 { font-size: .95rem; }
+.crm .modal-cab h2 { font-size: 1.2rem; }
+.crm .ficha-mia h2, .crm .inicio-mias h2 { font-size: 1.2rem; }
+.login .login-card h1 { font-size: 1.4rem; }
+
+/* ---------- Estructura ---------- */
+.crm[data-colapsado] { display: block; min-height: 100vh; background: var(--paper); }
+.crm .principal { margin-left: var(--lat-w); min-height: 100vh; display: flex; flex-direction: column; transition: margin-left .2s ease; }
+.crm[data-colapsado=true] .principal { margin-left: var(--lat-w-c); }
+
+/* Menú lateral fijo (no se mueve con el scroll) */
+.crm .lateral {
+  position: fixed; inset: 0 auto 0 0; z-index: 30; width: var(--lat-w);
+  background: #0a0a0a; color: #fff; padding: 0 12px 16px; gap: 0;
+  display: flex; flex-direction: column; flex-wrap: nowrap; align-items: stretch;
+  transition: width .2s ease; overflow-y: auto; overflow-x: visible;
+}
+.crm[data-colapsado=true] .lateral { width: var(--lat-w-c); }
+.crm .lateral-cab { height: var(--top-h); display: flex; align-items: center; justify-content: space-between; gap: 8px; border-bottom: 1px solid #262626; margin: 0 -12px 16px; padding: 0 12px 0 16px; flex: none; }
+.crm .marca { font: 600 1rem var(--f-body), sans-serif; letter-spacing: -.01em; color: #fff; gap: 10px; min-width: 0; white-space: nowrap; }
+.crm .marca-m { width: 32px; height: 32px; flex: none; background: #fff; color: #0a0a0a; border-radius: 6px; font-weight: 700; }
+.crm .lat-toggle { flex: none; width: 34px; height: 34px; display: grid; place-items: center; background: transparent; color: #a3a3a3; border: 1px solid transparent; border-radius: 6px; cursor: pointer; }
+.crm .lat-toggle:hover { color: #fff; background: #1a1a1a; }
+
+.crm .lateral nav { display: flex; flex-direction: column; gap: 2px; }
+.crm .lateral nav a { position: relative; display: flex; align-items: center; gap: 12px; margin: 0; height: 42px; padding: 0 12px; border-radius: 6px; color: #a3a3a3; font-weight: 500; font-size: .95rem; text-decoration: none; white-space: nowrap; }
+.crm .lateral nav a:hover { color: #fff; background: #1a1a1a; }
+.crm .lateral nav a[aria-current=page] { background: #fff; color: #0a0a0a; font-weight: 600; }
+.crm .lat-ico { width: 20px; height: 20px; flex: none; display: grid; place-items: center; }
+
+/* Menú contraído: solo iconos */
+.crm[data-colapsado=true] .lat-txt { display: none; }
+.crm[data-colapsado=true] .lateral-cab { flex-direction: column; justify-content: center; height: auto; min-height: var(--top-h); gap: 10px; padding: 14px 0; }
+.crm[data-colapsado=true] .lateral nav a { justify-content: center; padding: 0; }
+.crm[data-colapsado=true] .lateral nav a::after {
+  content: attr(data-tip); position: absolute; left: calc(100% + 12px); top: 50%; transform: translateY(-50%);
+  background: #0a0a0a; color: #fff; border: 1px solid #333; padding: 5px 10px; border-radius: 6px; font-size: .82rem; font-weight: 500;
+  opacity: 0; pointer-events: none; transition: opacity .12s; z-index: 40;
+}
+.crm[data-colapsado=true] .lateral nav a:hover::after, .crm[data-colapsado=true] .lateral nav a:focus-visible::after { opacity: 1; }
+
+/* Barra superior: usuario + cerrar sesión (arriba a la derecha) */
+.crm .topbar { position: sticky; top: 0; z-index: 20; height: var(--top-h); display: flex; align-items: center; justify-content: flex-end; gap: 16px; padding: 0 32px; background: #fff; border-bottom: 1px solid var(--line); }
+.crm .usuario { color: var(--muted); font-size: .9rem; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.crm .salir { margin: 0; display: inline-flex; align-items: center; gap: 8px; background: #fff; color: #0a0a0a; border: 1px solid #0a0a0a; padding: 7px 14px; border-radius: 6px; font: 500 .9rem var(--f-body), sans-serif; cursor: pointer; white-space: nowrap; flex: none; }
+.crm .salir svg { width: 16px; height: 16px; }
+.crm .salir:hover { background: #0a0a0a; color: #fff; }
+.crm .panel { padding: 32px; flex: 1; }
+
+/* ---------- Controles ---------- */
+.crm .btn, .login .btn { background: #0a0a0a; color: #fff; border-radius: 6px; font-weight: 500; font-size: .95rem; padding: 10px 20px; }
+.crm .btn:hover, .login .btn:hover { background: #333; }
+.crm .btn.peq { padding: 7px 14px; font-size: .9rem; }
+.crm .form, .login .form { background: #fff; border: 1px solid var(--line); border-radius: 8px; }
+.crm .form.plano { border: 0; }
+.crm input, .crm select, .crm textarea, .login input { border: 1px solid #d4d4d4; border-radius: 6px; font-size: .95rem; padding: 9px 12px; }
+.crm input:focus, .crm select:focus, .crm textarea:focus, .login input:focus { outline: none; border-color: #0a0a0a; box-shadow: 0 0 0 3px rgba(10,10,10,.1); }
+.crm label, .login label { font-weight: 500; font-size: .9rem; }
+.crm .aviso[data-tipo=error], .login .aviso[data-tipo=error] { font-weight: 600; }
+.crm .cerrar { color: var(--muted); }
+.crm .cerrar:hover { color: #0a0a0a; }
+
+/* Login */
+.login { background: #0a0a0a; }
+.login .login-card { border: 0; border-radius: 10px; padding: 32px; }
+
+/* ---------- Contenido ---------- */
+.crm .kpis div { border: 1px solid var(--line); border-radius: 8px; padding: 16px 18px; }
+.crm .kpis span { text-transform: uppercase; letter-spacing: .04em; font-size: .75rem; }
+.crm .kpis b { font: 600 1.75rem var(--f-body), sans-serif; }
+
+.crm .tabla { border-radius: 8px; }
+.crm th { background: #f6f6f6; color: #404040; font-size: .75rem; text-transform: uppercase; letter-spacing: .05em; border-bottom: 1px solid var(--line); }
+.crm tbody tr:hover td { background: #fafafa; }
+
+/* Estados en escala de grises */
+.crm .estado { border-radius: 999px; border: 1px solid #0a0a0a; background: #fff; color: #0a0a0a; font-size: .8rem; }
+.crm .estado[data-estado=nueva] { background: #fff; border-color: #0a0a0a; }
+.crm .estado[data-estado=contactada] { background: #ececec; border-color: #bdbdbd; }
+.crm .estado[data-estado=propuesta] { background: #cfcfcf; border-color: #8a8a8a; }
+.crm .estado[data-estado=ganada] { background: #0a0a0a; color: #fff; border-color: #0a0a0a; }
+.crm .estado[data-estado=perdida] { background: #fff; color: #6b6b6b; border: 1px dashed #8a8a8a; text-decoration: line-through; }
+
+/* Pipeline */
+.crm .col { background: #f1f1f1; border-radius: 8px; border-top-width: 3px; }
+.crm .col[data-estado=nueva] { --c: #bdbdbd; }
+.crm .col[data-estado=contactada] { --c: #8a8a8a; }
+.crm .col[data-estado=propuesta] { --c: #4a4a4a; }
+.crm .col[data-estado=ganada] { --c: #0a0a0a; }
+.crm .col[data-estado=perdida] { --c: #d4d4d4; }
+.crm .col[data-sobre=true] { background: #e4e4e4; outline: 2px dashed #0a0a0a; }
+.crm .ficha { border-radius: 6px; }
+.crm .ficha .emp { color: #0a0a0a; }
+
+/* Tarjetas */
+.crm .tarjeta { border-radius: 8px; transition: box-shadow .15s, border-color .15s; }
+.crm a.tarjeta:hover, .crm .ficha-tarjeta:hover, .crm .inicio-tarjeta:hover { box-shadow: 0 4px 14px rgba(0,0,0,.08); transform: none; border-color: #0a0a0a; }
+.crm .tarjeta h3 { font-size: 1.02rem; }
+.crm .chip { background: #f1f1f1; border: 1px solid var(--line); }
+.crm .volver { color: #0a0a0a; font-weight: 500; }
+
+/* Avatares e iniciales sin colores (anula los colores en línea) */
+.crm .avatar, .crm .ficha-iniciales { background: #0a0a0a !important; }
+.crm .avatar-mas { background: #6b6b6b !important; }
+.crm .ficha-vacia { background: #f1f1f1 !important; color: #6b6b6b; }
+
+/* Emoji de empresa sustituido por un icono monocromo */
+.crm .icono-empresa {
+  font-size: 0; display: inline-block; width: 1.5rem; height: 1.5rem; flex: none; background: #0a0a0a;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 21V4.5A1.5 1.5 0 0 1 5.5 3h8A1.5 1.5 0 0 1 15 4.5V21'/%3E%3Cpath d='M15 9h3.5A1.5 1.5 0 0 1 20 10.5V21'/%3E%3Cpath d='M2 21h20'/%3E%3Cpath d='M8 7.5h3M8 11.5h3M8 15.5h3'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 21V4.5A1.5 1.5 0 0 1 5.5 3h8A1.5 1.5 0 0 1 15 4.5V21'/%3E%3Cpath d='M15 9h3.5A1.5 1.5 0 0 1 20 10.5V21'/%3E%3Cpath d='M2 21h20'/%3E%3Cpath d='M8 7.5h3M8 11.5h3M8 15.5h3'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+.crm .icono-empresa.grande { width: 2.4rem; height: 2.4rem; }
+
+/* RRHH */
+.crm .rrhh-tabs { border-bottom: 1px solid var(--line); }
+.crm .rrhh-tabs a { font-weight: 500; margin-bottom: -1px; border-bottom-width: 2px; }
+.crm .rrhh-tabs a[aria-current=page] { color: #0a0a0a; border-bottom-color: #0a0a0a; font-weight: 600; }
+.crm .pendiente { border-radius: 8px; border-color: #bdbdbd; }
+.crm .inicio-progreso span { background: #8a8a8a; }
+.crm .inicio-progreso[data-completa=true] span { background: #0a0a0a; }
+.crm .inicio-lista li, .crm .inicio-mias li { border-radius: 6px; }
+
+/* Ventanas */
+.crm .modal { border-radius: 10px; box-shadow: 0 20px 50px rgba(0,0,0,.25); }
+.crm .modal::backdrop { background: rgba(0,0,0,.55); }
+
+/* ---------- Pantallas pequeñas ----------
+   El menú queda fijo y contraído; al expandirlo se superpone al contenido. */
+@media (max-width: 860px) {
+  .crm[data-colapsado] .principal, .crm[data-colapsado=true] .principal { margin-left: var(--lat-w-c); }
+  .crm[data-colapsado=false] .lateral { box-shadow: 8px 0 30px rgba(0,0,0,.35); }
+  .crm .topbar { padding: 0 16px; gap: 10px; }
+  .crm .salir span { display: none; }
+  .crm .salir { padding: 8px 10px; }
+  .crm .panel { padding: 20px 16px; }
+}
