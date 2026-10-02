@@ -1,0 +1,28 @@
+/* Sección Check de inicio (persona A). Todas las clases llevan el prefijo .inicio- */
+.inicio-filtros{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:20px}
+.inicio-filtros .buscar{flex:1;min-width:220px;max-width:none}
+.inicio-filtros select{width:auto}
+
+.inicio-tarjeta{font:inherit;text-align:left;cursor:pointer;width:100%;grid-template-columns:auto 1fr;align-items:center;gap:14px}
+.inicio-tarjeta:hover{box-shadow:0 6px 18px rgba(16,35,43,.12);transform:translateY(-2px);border-color:var(--teal)}
+.inicio-info{display:grid;gap:6px;min-width:0}
+.inicio-info b{font-size:1.05rem;color:var(--ink)}
+.inicio-estado{color:var(--muted);font-size:.88rem}
+
+.inicio-progreso{display:block;height:8px;background:var(--steel);border-radius:999px;overflow:hidden}
+.inicio-progreso span{display:block;height:100%;background:var(--teal);border-radius:999px;transition:width .2s}
+.inicio-progreso[data-completa=true] span{background:var(--ok)}
+
+.inicio-lista ul,.inicio-mias ul{list-style:none;padding:0;margin:16px 0;display:grid;gap:8px}
+.inicio-lista li,.inicio-mias li{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:6px;padding:10px 12px;background:#fff}
+.inicio-lista li[data-hecha=true] .inicio-titulo,.inicio-mias li[data-hecha=true] .inicio-titulo{text-decoration:line-through;color:var(--muted)}
+.inicio-lista label{display:flex;align-items:center;gap:10px;font-weight:500;flex:1;cursor:pointer}
+.inicio-lista input[type=checkbox]{width:20px;height:20px;padding:0;accent-color:var(--teal);flex:none}
+.inicio-mias .inicio-titulo{flex:1}
+.inicio-lista small,.inicio-mias small{color:var(--muted);white-space:nowrap}
+.inicio-quitar{background:none;border:0;cursor:pointer;color:var(--muted);font-size:1rem;padding:4px 8px}
+.inicio-quitar:hover{color:var(--bad)}
+.inicio-nueva{display:flex;gap:8px;margin-top:8px}
+.inicio-nueva input{flex:1}
+.inicio-mias{max-width:560px}
+.inicio-mias h2{font-size:1.8rem}
