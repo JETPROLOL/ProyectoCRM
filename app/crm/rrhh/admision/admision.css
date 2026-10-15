@@ -1,0 +1,22 @@
+/* Sección Admisión (persona A). Todas las clases llevan el prefijo .admision- */
+.admision-barra{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:20px}
+.admision-barra .buscar{flex:1;min-width:220px;max-width:none}
+
+.admision-lista{list-style:none;padding:0;display:grid;gap:12px;max-width:900px}
+.admision-fila{grid-template-columns:1fr auto auto;align-items:center;gap:20px}
+.admision-datos{display:grid;gap:2px;min-width:0;font-size:.92rem}
+.admision-datos b{font-size:1.05rem}
+.admision-datos a{color:var(--muted);text-decoration:none;word-break:break-word}
+.admision-datos a:hover{text-decoration:underline;color:var(--ink)}
+.admision-datos .admision-enlace{color:var(--ink);font-weight:500;text-decoration:underline}
+.admision-estado{border:1px solid var(--ink);border-radius:999px;padding:3px 12px;font-size:.8rem;font-weight:600;background:#fff;white-space:nowrap}
+.admision-estado[data-estado=aceptada]{background:var(--ink);color:#fff}
+.admision-estado[data-estado=denegada]{border:1px dashed #8a8a8a;color:var(--muted)}
+.admision-acciones{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.crm .btn.admision-sec{background:#fff;color:var(--ink);border:1px solid var(--ink)}
+.crm .btn.admision-sec:hover{background:var(--steel)}
+
+@media (max-width:860px){
+  .admision-fila{grid-template-columns:1fr auto}
+  .admision-acciones{grid-column:1 / -1;justify-content:flex-start}
+}

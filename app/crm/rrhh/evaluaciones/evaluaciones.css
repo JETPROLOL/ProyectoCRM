@@ -1,0 +1,31 @@
+/* Sección Evaluaciones (persona C). Todas las clases llevan el prefijo .eval- */
+.eval-intro{color:var(--muted);margin-bottom:16px;max-width:70ch}
+.eval-barra{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:20px}
+.eval-barra .buscar{flex:1;min-width:220px;max-width:none}
+
+.eval-tarjeta{font:inherit;text-align:left;width:100%;grid-template-columns:auto 1fr;align-items:center;gap:14px}
+button.eval-tarjeta{cursor:pointer}
+button.eval-tarjeta:hover{box-shadow:0 4px 14px rgba(0,0,0,.08);border-color:var(--ink)}
+.eval-info{display:grid;gap:3px;min-width:0;justify-items:start}
+.eval-info>b{font-size:1.05rem;color:var(--ink)}
+.eval-sub{color:var(--muted);font-size:.88rem;font-weight:400}
+.eval-media{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+
+.eval-estrellas{position:relative;display:inline-block;font-size:1.05rem;line-height:1;letter-spacing:1px;white-space:nowrap}
+.eval-estrellas-fondo{color:#d4d4d4}
+.eval-estrellas-relleno{position:absolute;left:0;top:0;overflow:hidden;color:var(--ink)}
+
+.eval-etiqueta{font-weight:500;font-size:.9rem;margin-bottom:6px}
+.eval-selector{display:flex;align-items:center;gap:4px}
+.eval-selector button{background:none;border:0;padding:0 2px;font-size:2rem;line-height:1;color:#d4d4d4;cursor:pointer}
+.eval-selector button[data-on=true]{color:var(--ink)}
+.eval-selector button:hover:not(:disabled){transform:scale(1.12)}
+.eval-selector button:disabled{cursor:default}
+.eval-selector-texto{margin-left:10px;color:var(--muted);font-size:.9rem}
+.eval-ayuda{color:var(--muted);font-size:.85rem}
+
+.eval-rrhh{margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}
+.eval-rrhh h3{font-size:1rem;margin-bottom:10px}
+.eval-rrhh ul{list-style:none;padding:0;display:grid;gap:10px;max-height:260px;overflow-y:auto}
+.eval-rrhh li{border:1px solid var(--line);border-radius:6px;padding:10px 12px;display:grid;gap:4px;font-size:.92rem}
+.eval-rrhh-cab{display:flex;justify-content:space-between;align-items:center;gap:10px}
