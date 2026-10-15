@@ -1,0 +1,58 @@
+/* Sección Horarios (persona B). Todas las clases llevan el prefijo .horarios- */
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+.horarios-sub{display:inline-flex;gap:4px;flex-wrap:wrap;background:var(--steel);padding:4px;border-radius:8px;margin-bottom:24px}
+.horarios-sub button{font:inherit;font-weight:500;padding:8px 16px;border:0;border-radius:6px;background:transparent;color:var(--muted);cursor:pointer}
+.horarios-sub button:hover{color:var(--ink)}
+.horarios-sub button[aria-selected=true]{background:#fff;color:var(--ink);font-weight:600;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+
+.horarios-fichar{grid-template-columns:1fr auto;align-items:center;gap:24px;padding:24px 28px;margin-bottom:16px;max-width:720px}
+.horarios-fichar[data-dentro=true]{border-color:var(--ink);border-width:2px}
+.horarios-estado{font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:600}
+.horarios-crono{font:600 2.6rem/1.1 var(--f-body),system-ui,sans-serif;font-variant-numeric:tabular-nums;margin:4px 0}
+.horarios-boton{padding:16px 28px;font-size:1.05rem}
+.horarios-fichar[data-dentro=true] .horarios-boton{background:#fff;color:var(--ink);border:2px solid var(--ink)}
+
+.horarios-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin:0 0 24px;max-width:720px}
+.horarios-kpis div{background:#fff;border:1px solid var(--line);border-radius:8px;padding:14px 18px;display:grid;gap:2px}
+.horarios-kpis span{color:var(--muted);font-size:.75rem;text-transform:uppercase;letter-spacing:.04em}
+.horarios-kpis b{font-size:1.5rem;font-weight:600}
+
+.horarios-tramo{display:inline-block;margin:0 14px 2px 0;white-space:nowrap;font-variant-numeric:tabular-nums}
+.horarios-tramo[data-abierto=true]{font-weight:600}
+
+.horarios-barra{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+.horarios-barra .buscar{flex:1;min-width:220px;max-width:none}
+
+.horarios-equipo{display:grid;gap:10px}
+.horarios-trabajador{padding:0;gap:0}
+.horarios-trabajador-cab{display:grid;grid-template-columns:1fr auto auto;gap:16px;align-items:center;width:100%;padding:14px 18px;background:none;border:0;font:inherit;text-align:left;cursor:pointer;color:inherit}
+.horarios-trabajador-cab:hover{background:#fafafa}
+.horarios-cifras{display:grid;text-align:right;min-width:90px}
+.horarios-cifras span{color:var(--muted);font-size:.82rem}
+.horarios-detalle{display:grid;gap:12px;padding:0 18px 18px;border-top:1px solid var(--line);padding-top:14px}
+.horarios-detalle .btn{justify-self:start}
+.horarios-acciones{white-space:nowrap;text-align:right}
+.horarios-link{background:none;border:0;font:inherit;font-size:.88rem;font-weight:500;color:var(--ink);text-decoration:underline;cursor:pointer;padding:0 6px}
+.horarios-link:hover{color:var(--muted)}
+
+.horarios-vac{display:grid;grid-template-columns:minmax(280px,420px) 1fr;gap:32px;align-items:start}
+.horarios-vac .subtitulo{margin:0 0 4px}
+.horarios-lista{list-style:none;padding:0;display:grid;gap:10px;max-width:760px}
+.horarios-lista li{display:grid;grid-template-columns:1fr auto auto;gap:14px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:8px;padding:14px 16px}
+.horarios-lista li p{margin-top:2px;font-size:.92rem}
+.horarios-estado-vac{border:1px solid var(--ink);border-radius:999px;padding:3px 12px;font-size:.8rem;font-weight:600;background:#fff;white-space:nowrap}
+.horarios-estado-vac[data-estado=aprobada]{background:var(--ink);color:#fff}
+.horarios-estado-vac[data-estado=rechazada]{border:1px dashed #8a8a8a;color:var(--muted);text-decoration:line-through}
+.horarios-botones{display:flex;gap:10px;flex-wrap:wrap}
+.crm .btn.horarios-sec{background:#fff;color:var(--ink);border:1px solid var(--ink)}
+.crm .btn.horarios-sec:hover{background:var(--steel)}
+
+@media (max-width:860px){
+  .horarios-vac{grid-template-columns:1fr}
+  .horarios-fichar{grid-template-columns:1fr}
+  .horarios-trabajador-cab{grid-template-columns:1fr auto}
+  .horarios-trabajador-cab .chip{grid-column:1;justify-self:start}
+  .horarios-lista li{grid-template-columns:1fr auto}
+  .horarios-lista li .btn,.horarios-lista li .horarios-link{grid-column:1 / -1;justify-self:start}
+}

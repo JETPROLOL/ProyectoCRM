@@ -1,4 +1,5 @@
 import ContactForm from "./ContactForm";
+import TrabajaConNosotros from "./TrabajaConNosotros";
 
 const servicios = [
   ["Transporte nacional", "Carga completa y grupaje con recogida en 24 horas y entrega con cita en toda la península."],
@@ -23,6 +24,7 @@ export default function Home() {
           <nav aria-label="Principal">
             <a href="#servicios">Servicios</a>
             <a href="#proceso">Cómo trabajamos</a>
+            <TrabajaConNosotros />
             <a href="#contacto" className="btn peq">Pedir presupuesto</a>
           </nav>
         </div>

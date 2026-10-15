@@ -1,0 +1,22 @@
+/* Botón "Trabaja con nosotros" de la web y su formulario. Clases con prefijo .trabaja- (globals.css no se toca) */
+.trabaja-boton{background:none;border:0;padding:0;font:inherit;color:#c8d4d8;cursor:pointer}
+.trabaja-boton:hover{color:#fff}
+.trabaja-corto{display:none}
+
+.trabaja-dialog{border:0;border-radius:6px;padding:24px;width:min(560px,94vw);max-height:92vh;overflow-y:auto;margin:auto;color:var(--ink);background:#fff}
+.trabaja-dialog::backdrop{background:rgba(16,35,43,.7)}
+.trabaja-cab{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.trabaja-cab h2{font-size:2rem}
+.trabaja-cerrar{background:none;border:0;font-size:2rem;line-height:1;cursor:pointer;color:var(--muted);padding:0 6px}
+.trabaja-cerrar:hover{color:var(--ink)}
+.form.trabaja-form{padding:0;border:0}
+.trabaja-intro{color:var(--muted)}
+.trabaja-consent{display:flex;gap:10px;align-items:flex-start;font-weight:400;font-size:.88rem;color:var(--muted)}
+.trabaja-consent input{width:auto;margin-top:3px;flex:none}
+.trabaja-trampa{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.trabaja-ok{display:grid;gap:14px;justify-items:start;padding:8px 0}
+
+@media (max-width:560px){
+  .nav nav{gap:14px}
+  .trabaja-largo{display:none}.trabaja-corto{display:inline}
+}
