@@ -5,6 +5,7 @@ export type Oportunidad = {
   id: string; created_at: string; nombre: string; empresa: string | null; email: string;
   telefono: string | null; servicio: string; mensaje: string | null; estado: Estado;
   valor_estimado: number | null; empleado_id: string | null;
+  empresa_id: string | null; vendedor_id: string | null;   // los añade la migración de ventas
 };
 export type Empresa = { id: string; nombre: string; ubicacion: string };
 export type Empleado = {

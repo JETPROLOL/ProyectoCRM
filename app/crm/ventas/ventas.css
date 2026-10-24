@@ -19,7 +19,7 @@
 .ventas-tabla .sub{display:block;color:var(--muted);font-size:.85rem}
 .ventas-tabla tr[data-inactivo=true] td{color:var(--muted)}
 .ventas-tabla .acciones{display:flex;gap:8px;justify-content:flex-end}
-.ventas-tabla .acciones button{font:inherit;font-size:.85rem;font-weight:500;padding:6px 12px;border:1px solid #0a0a0a;border-radius:6px;background:#fff;color:#0a0a0a;cursor:pointer}
+.ventas-tabla .acciones button{margin:0;font:inherit;font-size:.85rem;font-weight:500;padding:6px 12px;border:1px solid #0a0a0a;border-radius:6px;background:#fff;color:#0a0a0a;cursor:pointer}
 .ventas-tabla .acciones button:hover{background:#0a0a0a;color:#fff}
 
 .ventas-etiqueta{display:inline-block;border:1px solid #0a0a0a;border-radius:999px;padding:2px 10px;font-size:.8rem;font-weight:500;background:#fff}
@@ -42,3 +42,78 @@
 .ventas-falta{color:#595959;font-weight:400;font-style:italic}
 .ventas-aviso-fiscal{border-left:4px solid #0a0a0a;background:#f1f1f1;padding:10px 14px;border-radius:0 6px 6px 0;font-weight:500}
 .ventas-fiscal .btn{justify-self:start}
+
+/* Presupuestos */
+.ventas-filtro{display:inline-flex;align-items:center;gap:8px;font-weight:500}
+.ventas-estado{display:inline-block;border-radius:999px;padding:2px 10px;font-size:.8rem;font-weight:600;border:1px solid #0a0a0a;background:#fff;color:#0a0a0a;white-space:nowrap}
+.ventas-estado[data-estado=borrador]{border-style:dashed;color:#404040;border-color:#6b6b6b}
+.ventas-estado[data-estado=enviado]{background:#ececec;border-color:#6b6b6b}
+.ventas-estado[data-estado=aceptado]{background:#0a0a0a;color:#fff}
+.ventas-estado[data-estado=rechazado]{border-style:dashed;color:#404040;text-decoration:line-through}
+.ventas-estado[data-estado=caducado]{background:#f1f1f1;color:#404040;border-color:#8a8a8a;font-style:italic}
+.ventas-tabla a.cod{color:#0a0a0a;text-decoration:underline;text-underline-offset:3px}
+.ventas-tabla a.cod:focus-visible{outline:3px solid #0a0a0a;outline-offset:2px}
+
+/* Editor de presupuesto */
+.ventas-cab-doc h2{font-size:1.4rem;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.ventas-contexto{margin:6px 0 0}
+.ventas-contexto a,.ventas-aviso-fiscal a{color:#0a0a0a;text-decoration:underline;text-underline-offset:3px}
+.ventas-situacion{color:#404040;margin:4px 0 16px}
+.ventas-datos{border:0;padding:0;margin:0 0 24px;display:grid;grid-template-columns:repeat(2,minmax(160px,220px));gap:12px 16px;align-items:start}
+.ventas-datos .ancho{grid-column:1/-1;max-width:640px}
+.ventas-datos label{display:grid;gap:4px}
+.ventas-datos textarea{min-height:70px;font:inherit;resize:vertical}
+.ventas-datos:disabled input,.ventas-datos:disabled textarea{background:#f6f6f6;color:#404040}
+.ventas-aviso-fiscal{margin:0 0 16px}
+
+.ventas-lineas th,.ventas-lineas td{padding:8px 6px}
+.ventas-lineas td input,.ventas-lineas td select{width:100%;min-width:0;margin:0}
+.ventas-lineas td input.desc{min-width:170px}
+.ventas-lineas td.num input{min-width:70px;text-align:right}
+.ventas-lineas td select{min-width:74px}
+.ventas-lineas td:last-child{padding-right:10px}
+
+.ventas-totales{margin:20px 0 0 auto;max-width:360px;display:grid;gap:6px}
+.ventas-totales>div{display:flex;justify-content:space-between;gap:16px}
+.ventas-totales dt{font-weight:500}
+.ventas-totales dd{margin:0;font-variant-numeric:tabular-nums}
+.ventas-totales .sub{color:var(--muted);font-size:.8rem;font-weight:400;margin-left:4px}
+.ventas-totales .total{border-top:2px solid #0a0a0a;padding-top:8px;font-size:1.2rem;font-weight:700}
+
+.ventas-acciones{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.crm .btn.sec{background:#fff;color:#0a0a0a;border:1px solid #0a0a0a}
+.crm .btn.sec:hover{background:#0a0a0a;color:#fff}
+.crm .btn:disabled{opacity:.5;cursor:not-allowed}
+@media (max-width:560px){.ventas-datos{grid-template-columns:1fr}}
+
+/* Documento imprimible: oculto en pantalla */
+.ventas-impresion{display:none}
+@media print{
+  @page{margin:16mm}
+  .crm .lateral,.crm .topbar,.ventas-tabs,.crm .cab,.crm .volver,.ventas-pantalla{display:none !important}
+  .crm .principal{margin-left:0 !important}
+  .crm .panel{padding:0}
+  .crm,.crm[data-colapsado]{background:#fff}
+  .ventas-impresion{display:block;color:#000;font-size:11pt}
+  .ventas-impresion .imp-cab{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #000;padding-bottom:10px;margin-bottom:16px}
+  .ventas-impresion .imp-marca{font-size:18pt}
+  .ventas-impresion .imp-num{display:grid;text-align:right}
+  .ventas-impresion .imp-num span{font-size:14pt;font-weight:700}
+  .ventas-impresion .imp-bloques{display:flex;justify-content:space-between;gap:24px;margin-bottom:18px}
+  .ventas-impresion .imp-bloques>div{display:grid;gap:2px;align-content:start}
+  .ventas-impresion table{width:100%;border-collapse:collapse}
+  .ventas-impresion th,.ventas-impresion td{border-bottom:1px solid #999;padding:6px 8px;text-align:left}
+  .ventas-impresion th{border-bottom:2px solid #000;font-size:9pt;text-transform:uppercase}
+  .ventas-impresion td:nth-child(n+2),.ventas-impresion th:nth-child(n+2){text-align:right}
+  .ventas-impresion .imp-totales{margin:16px 0 0 auto;width:55%;display:grid;gap:4px}
+  .ventas-impresion .imp-totales>div{display:flex;justify-content:space-between}
+  .ventas-impresion .imp-totales dd{margin:0}
+  .ventas-impresion .imp-totales .total{border-top:2px solid #000;padding-top:6px;font-weight:700;font-size:13pt}
+  .ventas-impresion .imp-notas{margin-top:18px}
+}
+
+/* Botón / enlace de presupuesto dentro de la tarjeta de oportunidad */
+.ficha .ficha-presu{display:block;text-align:center;border:1px solid #0a0a0a;border-radius:6px;padding:6px 10px;font-weight:600;font-size:.88rem;color:#0a0a0a;text-decoration:none;background:#fff}
+.ficha .ficha-presu:hover{background:#0a0a0a;color:#fff}
+.ficha .btn.peq.sec{width:100%}
+.ventas-tabla .acciones{margin:0}

@@ -20,8 +20,11 @@ export type DatosFiscales = {
 export const eur = (n: number) => n.toLocaleString("es-ES", { style: "currency", currency: "EUR" });
 
 // "Calle Mayor 1, 50001 Zaragoza, España", sin huecos si falta algún dato
-export const direccionCompleta = (d: Pick<DatosFiscales, "direccion_fiscal" | "codigo_postal" | "ciudad" | "pais">) =>
-  [d.direccion_fiscal, [d.codigo_postal, d.ciudad].filter(Boolean).join(" "), d.pais].filter(Boolean).join(", ");
+// Si no hay ningún dato de dirección devuelve "" (el país por sí solo no es una dirección)
+export const direccionCompleta = (d: Pick<DatosFiscales, "direccion_fiscal" | "codigo_postal" | "ciudad" | "pais">) => {
+  const lugar = [d.codigo_postal, d.ciudad].filter(Boolean).join(" ");
+  return d.direccion_fiscal || lugar ? [d.direccion_fiscal, lugar, d.pais].filter(Boolean).join(", ") : "";
+};
 
 // ¿Tiene la empresa lo mínimo para poder facturarle?
 export const faltaParaFacturar = (e: Partial<DatosFiscales>) => {
