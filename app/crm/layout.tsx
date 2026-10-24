@@ -16,6 +16,7 @@ const IcoOportunidades = () => <Ico><rect x="3" y="4" width="5" height="16" rx="
 const IcoEmpleados = () => <Ico><circle cx="9" cy="8" r="3.5" /><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6" /><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8" /><path d="M18 14.3c2.2.7 3.5 2.6 3.5 5.7" /></Ico>;
 const IcoEmpresas = () => <Ico><path d="M4 21V4.5A1.5 1.5 0 0 1 5.5 3h8A1.5 1.5 0 0 1 15 4.5V21" /><path d="M15 9h3.5A1.5 1.5 0 0 1 20 10.5V21" /><path d="M2 21h20" /><path d="M8 7.5h3M8 11.5h3M8 15.5h3" /></Ico>;
 const IcoRrhh = () => <Ico><rect x="3" y="7" width="18" height="13" rx="2" /><path d="M9 7V5.5A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5V7" /><path d="M3 13h18" /></Ico>;
+const IcoVentas = () => <Ico><path d="M4 20V10" /><path d="M10 20V4" /><path d="M16 20v-8" /><path d="M22 20H2" /></Ico>;
 const IcoMenu = () => <Ico><rect x="3" y="4" width="18" height="16" rx="2" /><path d="M9 4v16" /></Ico>;
 const IcoSalir = () => <Ico><path d="M9 21H5.5A1.5 1.5 0 0 1 4 19.5v-15A1.5 1.5 0 0 1 5.5 3H9" /><path d="M16 17l5-5-5-5" /><path d="M21 12H9" /></Ico>;
 
@@ -23,6 +24,7 @@ const SECCIONES = [
   { href: "/crm", nombre: "Oportunidades", icono: <IcoOportunidades /> },
   { href: "/crm/empleados", nombre: "Empleados", icono: <IcoEmpleados /> },
   { href: "/crm/empresas", nombre: "Empresas", icono: <IcoEmpresas /> },
+  { href: "/crm/ventas", nombre: "Ventas", icono: <IcoVentas />, soloVentas: true },
   { href: "/crm/rrhh", nombre: "RRHH", icono: <IcoRrhh /> },
 ];
 
@@ -112,7 +114,7 @@ export default function CrmLayout({ children }: { children: ReactNode }) {
             </button>
           </div>
           <nav aria-label="Secciones del CRM">
-            {SECCIONES.map((s) => (
+            {SECCIONES.filter((s) => !s.soloVentas || perfil?.es_ventas).map((s) => (
               <Link key={s.href} href={s.href} data-tip={s.nombre} aria-label={s.nombre}
                 aria-current={activa(ruta, s.href) ? "page" : undefined}>
                 <span className="lat-ico">{s.icono}</span><span className="lat-txt">{s.nombre}</span>
