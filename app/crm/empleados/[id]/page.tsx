@@ -17,7 +17,7 @@ export default function DetalleEmpleado() {
     (async () => {
       const { data } = await supabase
         .from("empleados")
-        .select("*, empresa:empresas(*), oportunidad:oportunidades(*)")
+        .select("*, empresa:empresas(*), oportunidad:oportunidades!oportunidades_empleado_id_fkey(*)")
         .eq("id", id)
         .maybeSingle();
       setM((data as unknown as Detalle) ?? null);

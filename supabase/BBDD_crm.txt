@@ -1,0 +1,135 @@
+-- WARNING: This schema is for context only and is not meant to be run.
+-- Table order and constraints may not be valid for execution.
+
+CREATE TABLE public.oportunidades (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  nombre text NOT NULL CHECK (char_length(nombre) >= 2 AND char_length(nombre) <= 120),
+  empresa text,
+  email text NOT NULL CHECK (email ~* '^[^@\s]+@[^@\s]+\.[^@\s]+$'::text),
+  telefono text,
+  servicio text NOT NULL,
+  mensaje text CHECK (char_length(mensaje) <= 2000),
+  estado text NOT NULL DEFAULT 'nueva'::text CHECK (estado = ANY (ARRAY['nueva'::text, 'contactada'::text, 'propuesta'::text, 'ganada'::text, 'perdida'::text])),
+  valor_estimado numeric,
+  empleado_id uuid UNIQUE,
+  CONSTRAINT oportunidades_pkey PRIMARY KEY (id),
+  CONSTRAINT oportunidades_empleado_id_fkey FOREIGN KEY (empleado_id) REFERENCES public.empleados(id)
+);
+CREATE TABLE public.empresas (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  nombre text NOT NULL CHECK (char_length(nombre) >= 2 AND char_length(nombre) <= 120),
+  ubicacion text NOT NULL CHECK (char_length(ubicacion) >= 2 AND char_length(ubicacion) <= 160),
+  CONSTRAINT empresas_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.empleados (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  nombre text NOT NULL CHECK (char_length(nombre) >= 2 AND char_length(nombre) <= 120),
+  email text NOT NULL CHECK (email ~* '^[^@\s]+@[^@\s]+\.[^@\s]+$'::text),
+  telefono text NOT NULL CHECK (char_length(telefono) >= 5 AND char_length(telefono) <= 30),
+  empresa_id uuid,
+  puesto text,
+  foto_path text,
+  estado text NOT NULL DEFAULT 'activo'::text CHECK (estado = ANY (ARRAY['activo'::text, 'baja'::text])),
+  user_id uuid UNIQUE,
+  CONSTRAINT empleados_pkey PRIMARY KEY (id),
+  CONSTRAINT empleados_empresa_id_fkey FOREIGN KEY (empresa_id) REFERENCES public.empresas(id),
+  CONSTRAINT empleados_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id)
+);
+CREATE TABLE public.roles_usuario (
+  user_id uuid NOT NULL,
+  rol text NOT NULL DEFAULT 'empleado'::text CHECK (rol = ANY (ARRAY['rrhh'::text, 'empleado'::text])),
+  CONSTRAINT roles_usuario_pkey PRIMARY KEY (user_id),
+  CONSTRAINT roles_usuario_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id)
+);
+CREATE TABLE public.plantilla_checks_inicio (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  titulo text NOT NULL UNIQUE CHECK (char_length(titulo) >= 2 AND char_length(titulo) <= 120),
+  orden integer NOT NULL DEFAULT 0,
+  CONSTRAINT plantilla_checks_inicio_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.checks_inicio (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  empleado_id uuid NOT NULL,
+  titulo text NOT NULL CHECK (char_length(titulo) >= 2 AND char_length(titulo) <= 120),
+  orden integer NOT NULL DEFAULT 0,
+  completada boolean NOT NULL DEFAULT false,
+  completada_en timestamp with time zone,
+  completada_por uuid,
+  CONSTRAINT checks_inicio_pkey PRIMARY KEY (id),
+  CONSTRAINT checks_inicio_empleado_id_fkey FOREIGN KEY (empleado_id) REFERENCES public.empleados(id),
+  CONSTRAINT checks_inicio_completada_por_fkey FOREIGN KEY (completada_por) REFERENCES auth.users(id)
+);
+CREATE TABLE public.solicitudes_admision (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  nombre text NOT NULL CHECK (char_length(btrim(nombre)) >= 2 AND char_length(btrim(nombre)) <= 50),
+  apellidos text NOT NULL CHECK (char_length(btrim(apellidos)) >= 2 AND char_length(btrim(apellidos)) <= 69),
+  telefono text NOT NULL CHECK (char_length(btrim(telefono)) >= 5 AND char_length(btrim(telefono)) <= 30),
+  email text NOT NULL CHECK (char_length(email) <= 160 AND email ~* '^[^@\s]+@[^@\s]+\.[^@\s]+$'::text),
+  cv_path text NOT NULL CHECK (cv_path ~ '^solicitudes/[0-9a-f-]{36}\.pdf$'::text),
+  estado text NOT NULL DEFAULT 'pendiente'::text CHECK (estado = ANY (ARRAY['pendiente'::text, 'aceptada'::text, 'denegada'::text])),
+  motivo text CHECK (char_length(motivo) <= 500),
+  resuelta_por uuid,
+  resuelta_en timestamp with time zone,
+  empleado_id uuid,
+  CONSTRAINT solicitudes_admision_pkey PRIMARY KEY (id),
+  CONSTRAINT solicitudes_admision_resuelta_por_fkey FOREIGN KEY (resuelta_por) REFERENCES auth.users(id),
+  CONSTRAINT solicitudes_admision_empleado_id_fkey FOREIGN KEY (empleado_id) REFERENCES public.empleados(id)
+);
+CREATE TABLE public.fichajes (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  empleado_id uuid NOT NULL,
+  entrada timestamp with time zone NOT NULL DEFAULT now(),
+  salida timestamp with time zone,
+  nota text CHECK (char_length(nota) <= 300),
+  CONSTRAINT fichajes_pkey PRIMARY KEY (id),
+  CONSTRAINT fichajes_empleado_id_fkey FOREIGN KEY (empleado_id) REFERENCES public.empleados(id)
+);
+CREATE TABLE public.vacaciones (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  empleado_id uuid NOT NULL,
+  desde date NOT NULL,
+  hasta date NOT NULL,
+  comentario text CHECK (char_length(comentario) <= 500),
+  estado text NOT NULL DEFAULT 'pendiente'::text CHECK (estado = ANY (ARRAY['pendiente'::text, 'aprobada'::text, 'rechazada'::text])),
+  respuesta text CHECK (char_length(respuesta) <= 500),
+  resuelta_por uuid,
+  resuelta_en timestamp with time zone,
+  CONSTRAINT vacaciones_pkey PRIMARY KEY (id),
+  CONSTRAINT vacaciones_resuelta_por_fkey FOREIGN KEY (resuelta_por) REFERENCES auth.users(id),
+  CONSTRAINT vacaciones_empleado_id_fkey FOREIGN KEY (empleado_id) REFERENCES public.empleados(id)
+);
+CREATE TABLE public.evaluaciones (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  updated_at timestamp with time zone NOT NULL DEFAULT now(),
+  evaluado_id uuid NOT NULL,
+  evaluador_user_id uuid NOT NULL,
+  puntuacion integer NOT NULL CHECK (puntuacion >= 1 AND puntuacion <= 5),
+  comentario text CHECK (char_length(comentario) <= 1000),
+  trimestre date NOT NULL DEFAULT trimestre_actual(),
+  CONSTRAINT evaluaciones_pkey PRIMARY KEY (id),
+  CONSTRAINT evaluaciones_evaluado_id_fkey FOREIGN KEY (evaluado_id) REFERENCES public.empleados(id),
+  CONSTRAINT evaluaciones_evaluador_user_id_fkey FOREIGN KEY (evaluador_user_id) REFERENCES auth.users(id)
+);
+CREATE TABLE public.nominas (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  empleado_id uuid NOT NULL,
+  periodo date NOT NULL CHECK (periodo = date_trunc('month'::text, periodo::timestamp with time zone)::date),
+  archivo_path text NOT NULL,
+  nombre_archivo text NOT NULL CHECK (char_length(nombre_archivo) <= 200),
+  firmada boolean NOT NULL DEFAULT false,
+  firmada_en timestamp with time zone,
+  firmada_por uuid,
+  firma_nombre text CHECK (char_length(firma_nombre) >= 3 AND char_length(firma_nombre) <= 150),
+  CONSTRAINT nominas_pkey PRIMARY KEY (id),
+  CONSTRAINT nominas_empleado_id_fkey FOREIGN KEY (empleado_id) REFERENCES public.empleados(id),
+  CONSTRAINT nominas_firmada_por_fkey FOREIGN KEY (firmada_por) REFERENCES auth.users(id)
+);
