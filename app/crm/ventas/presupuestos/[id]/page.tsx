@@ -11,6 +11,7 @@ import {
   Linea, Presupuesto, baseLinea, fechaCorta, lineaVacia, mensajeError, totales,
 } from "@/lib/ventas/presupuestos";
 import Modal from "../../../Modal";
+import { usePerfil } from "../../../PerfilContext";
 import Estado from "../../Estado";
 
 type Detalle = Presupuesto & {
@@ -41,6 +42,8 @@ const valor = (n: number) => (Number.isNaN(n) ? "" : n);
 export default function EditorPresupuesto() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
+  const { es_finanzas } = usePerfil();
+  const [factura, setFactura] = useState<{ id: string; numero: string | null; estado: string } | null>(null);
   const [p, setP] = useState<Detalle | null | undefined>(undefined);
   const [catalogo, setCatalogo] = useState<Servicio[]>([]);
   const [lineas, setLineas] = useState<Linea[]>([]);
@@ -64,6 +67,10 @@ export default function EditorPresupuesto() {
     const d = (pr.data as unknown as Detalle | null) ?? null;
     setP(d);
     if (!d) return;
+    // Factura "viva" de este presupuesto, si existe (la migración de facturación puede no estar aplicada: entonces no hay)
+    const fa = await supabase.from("facturas").select("id,numero,estado").eq("presupuesto_id", id)
+      .eq("tipo", "ordinaria").neq("estado", "anulada").maybeSingle();
+    setFactura((fa.data as { id: string; numero: string | null; estado: string } | null) ?? null);
     setFecha(d.fecha); setValidez(d.validez_hasta); setNotas(d.notas ?? "");
     setLineas(((ls.data as Omit<Linea, "clave">[]) ?? []).map((l) => ({
       clave: crypto.randomUUID(), servicio_id: l.servicio_id, descripcion: l.descripcion, cantidad: Number(l.cantidad),
@@ -157,6 +164,14 @@ export default function EditorPresupuesto() {
     router.push("/crm/ventas/presupuestos");
   }
 
+  async function crearFactura() {
+    setOcupado(true); setError("");
+    const { data, error } = await supabase.rpc("crear_factura_desde_presupuesto", { p_presupuesto_id: id });
+    setOcupado(false);
+    if (error) return setError(mensajeError(error));
+    router.push(`/crm/ventas/facturas/${data as string}`);
+  }
+
   function ejecutarConfirmacion() {
     if (confirmar === "aceptar") pasarA("aceptado", "Presupuesto aceptado. La oportunidad se ha marcado como ganada.");
     if (confirmar === "rechazar") pasarA("rechazado", "Presupuesto marcado como rechazado.");
@@ -185,6 +200,15 @@ export default function EditorPresupuesto() {
               {p.vendedor && <> · Vendedor: {p.vendedor.nombre}</>}
             </p>
             <p className="ventas-situacion">{situacion[p.estado]}</p>
+            {p.estado === "aceptado" && (
+              <p className="ventas-situacion">
+                {factura
+                  ? <>Factura: <Link href={`/crm/ventas/facturas/${factura.id}`}>{factura.numero ?? "borrador de factura"}</Link></>
+                  : es_finanzas
+                    ? <button type="button" className="btn peq" disabled={ocupado} onClick={crearFactura}>Crear factura</button>
+                    : "Pendiente de facturar por finanzas."}
+              </p>
+            )}
           </div>
         </header>
 

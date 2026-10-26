@@ -117,3 +117,35 @@
 .ficha .ficha-presu:hover{background:#0a0a0a;color:#fff}
 .ficha .btn.peq.sec{width:100%}
 .ventas-tabla .acciones{margin:0}
+
+/* Facturas */
+.ventas-estado[data-estado=emitida]{background:#ececec;border-color:#6b6b6b}
+.ventas-estado[data-estado=parcial]{background:#cfcfcf;border-color:#404040}
+.ventas-estado[data-estado=vencida]{background:#fff;border:2px solid #0a0a0a;text-transform:uppercase;letter-spacing:.03em}
+.ventas-estado[data-estado=vencida]::before{content:"! ";font-weight:800}
+.ventas-estado[data-estado=pagada]{background:#0a0a0a;color:#fff}
+.ventas-estado[data-estado=anulada]{border-style:dashed;color:#404040;text-decoration:line-through}
+.ventas-estado[data-estado=rectificativa]{font-style:italic;background:#f1f1f1;border-color:#404040}
+.ventas-pendiente{background:#fff;border:1px solid var(--line);border-radius:8px;padding:16px 20px;margin-bottom:20px}
+.ventas-pendiente h2{font-size:1rem;margin-bottom:10px}
+.ventas-pendiente ul{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+.ventas-pendiente li{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:8px}
+.ventas-pendiente li:first-child{border-top:0;padding-top:0}
+.ventas-pendiente a{color:#0a0a0a;font-weight:600;text-decoration:underline;text-underline-offset:3px}
+.ventas-pagos{margin-top:8px}
+.ventas-importe-neg{color:#0a0a0a;font-weight:700}
+.ventas-partes{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-bottom:20px}
+.ventas-partes section{background:#fff;border:1px solid var(--line);border-radius:8px;padding:14px 18px;display:grid;gap:2px}
+.ventas-partes h3{font-size:.75rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:4px}
+.ventas-resumen{display:flex;gap:24px;flex-wrap:wrap;margin:0 0 20px}
+.ventas-resumen div{display:grid;gap:2px}
+.ventas-resumen dt{font-size:.75rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.ventas-resumen dd{margin:0;font-weight:600}
+.ventas-sinborde{border:0;padding:0;margin:0;display:grid;gap:12px;min-width:0}
+.ventas-enlace{background:none;border:0;padding:0;font:inherit;font-weight:600;text-decoration:underline;text-underline-offset:3px;color:#0a0a0a;cursor:pointer}
+.ayuda{color:var(--muted);font-size:.85rem;font-weight:400}
+.ventas-situacion a{color:#0a0a0a;font-weight:600;text-decoration:underline;text-underline-offset:3px}
+@media print{
+  .ventas-impresion .imp-emisor{display:grid;gap:2px}
+  .ventas-impresion .imp-pie{margin-top:24px;font-size:9pt;border-top:1px solid #999;padding-top:8px}
+}
