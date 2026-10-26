@@ -8,6 +8,7 @@ import { usePerfil } from "../PerfilContext";
 // Añadir aquí una pestaña nueva es lo único que hay que tocar para colgar una sección en Ventas
 const PESTANAS = [
   { href: "/crm/ventas/presupuestos", nombre: "Presupuestos" },
+  { href: "/crm/ventas/facturas", nombre: "Facturas" },
   { href: "/crm/ventas/servicios", nombre: "Servicios" },
 ];
 

@@ -28,7 +28,10 @@ const cent = (n: number) => BigInt(Math.round((Number.isFinite(n) ? n : 0) * 100
 
 export function baseLinea(l: Pick<Linea, "cantidad" | "precio_unitario" | "descuento_pct">): number {
   const num = cent(l.cantidad) * cent(l.precio_unitario) * (BigInt(10000) - cent(l.descuento_pct));
-  return Number((num + BigInt(500000)) / BigInt(1000000));       // redondeo "half up" a céntimos, como round() de Postgres
+  // Redondeo "half away from zero" a céntimos, como round() de Postgres (válido también para importes negativos de las rectificativas)
+  const neg = num < BigInt(0);
+  const r = Number(((neg ? -num : num) + BigInt(500000)) / BigInt(1000000));
+  return neg ? -r : r;
 }
 
 export type Totales = {
@@ -36,13 +39,16 @@ export type Totales = {
   base: number; iva: number; total: number;
 };
 
+// IVA en céntimos de una base en céntimos, redondeado half away from zero (+ 0 evita el "-0")
+const ivaCent = (base: number, tipo: number) => (base < 0 ? -1 : 1) * Math.floor((Math.abs(base) * tipo + 50) / 100) + 0;
+
 // El IVA se calcula sobre la suma de bases de cada tipo (no línea a línea), igual que en la base de datos
 export function totales(lineas: Pick<Linea, "cantidad" | "precio_unitario" | "descuento_pct" | "tipo_iva">[]): Totales {
   const porTipo = new Map<number, number>();
   for (const l of lineas) porTipo.set(l.tipo_iva, (porTipo.get(l.tipo_iva) ?? 0) + baseLinea(l));
   const desglose = [...porTipo.entries()]
     .sort((a, b) => b[0] - a[0])
-    .map(([tipo, base]) => ({ tipo, base: base / 100, iva: Math.floor((base * tipo + 50) / 100) / 100 }));
+    .map(([tipo, base]) => ({ tipo, base: base / 100, iva: ivaCent(base, tipo) / 100 }));
   const base = desglose.reduce((s, d) => s + Math.round(d.base * 100), 0);
   const iva = desglose.reduce((s, d) => s + Math.round(d.iva * 100), 0);
   return { desglose, base: base / 100, iva: iva / 100, total: (base + iva) / 100 };
