@@ -5,12 +5,14 @@ import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { eur } from "@/lib/ventas/base";
 import {
-  DatosEmisor, ETIQUETA_FACTURA, EstadoVisible, Factura, estadoVisible, faltaEmisor, pendiente,
+  DatosEmisor, ETIQUETA_FACTURA, EstadoVisible, Factura, cartera, estadoVisible, faltaEmisor, pendiente,
 } from "@/lib/ventas/facturas";
 import { fechaCorta, hoyISO, mensajeError } from "@/lib/ventas/presupuestos";
 import Modal from "../../Modal";
 import { usePerfil } from "../../PerfilContext";
 import EstadoFactura from "../EstadoFactura";
+import GraficasFacturacion from "./GraficasFacturacion";
+import "../../graficas/graficas.css";
 
 type Fila = Factura & { empresa: { nombre: string } | null };
 type PorFacturar = { id: string; numero: string; total: number; empresa: { nombre: string } | null };
@@ -22,6 +24,7 @@ export default function Facturas() {
   const { es_finanzas } = usePerfil();
   const [filas, setFilas] = useState<Fila[]>([]);
   const [porFacturar, setPorFacturar] = useState<PorFacturar[]>([]);
+  const [pagos, setPagos] = useState<{ fecha: string; importe: number }[]>([]);
   const [emisor, setEmisor] = useState<DatosEmisor | null>(null);
   const [cargando, setCargando] = useState(true);
   const [q, setQ] = useState("");
@@ -32,10 +35,11 @@ export default function Facturas() {
   const hoy = hoyISO();
 
   const cargar = useCallback(async () => {
-    const [f, p, e] = await Promise.all([
+    const [f, p, e, pg] = await Promise.all([
       supabase.from("facturas").select("*, empresa:empresas(nombre)").order("created_at", { ascending: false }),
       supabase.from("presupuestos").select("id,numero,total,empresa:empresas(nombre)").eq("estado", "aceptado").order("created_at"),
       supabase.from("datos_emisor").select("*").maybeSingle(),
+      supabase.from("pagos").select("fecha,importe"),
     ]);
     if (f.error) setError(`No se pudieron cargar las facturas. ${f.error.message}`);
     const facturas = (f.data as unknown as Fila[]) ?? [];
@@ -44,6 +48,7 @@ export default function Facturas() {
     const facturados = new Set(facturas.filter((x) => x.tipo === "ordinaria" && x.estado !== "anulada").map((x) => x.presupuesto_id));
     setPorFacturar(((p.data as unknown as PorFacturar[]) ?? []).filter((x) => !facturados.has(x.id)));
     setEmisor((e.data as DatosEmisor | null) ?? null);
+    setPagos((pg.data as { fecha: string; importe: number }[]) ?? []);
     setCargando(false);
   }, []);
   useEffect(() => { cargar(); }, [cargar]);
@@ -56,12 +61,10 @@ export default function Facturas() {
     const anio = hoy.slice(0, 4);
     const emitidas = filas.filter((f) => f.estado !== "borrador");
     const facturado = emitidas.filter((f) => f.fecha_emision?.startsWith(anio)).reduce((s, f) => s + f.total, 0);   // incluye anuladas y rectificativas: neto
-    const pend = filas.reduce((s, f) => s + pendiente(f), 0);
-    const venc = filas.filter((f) => f.fecha_vencimiento && f.fecha_vencimiento < hoy).reduce((s, f) => s + pendiente(f), 0);
-    const cobrado = filas.filter((f) => f.tipo === "ordinaria" && f.estado !== "anulada").reduce((s, f) => s + f.pagado, 0);
+    const c = cartera(filas, hoy);
     return [
-      [`Facturado en ${anio}`, eur(facturado)], ["Pendiente de cobro", eur(pend)],
-      ["Vencido", eur(venc)], ["Cobrado", eur(cobrado)],
+      [`Facturado en ${anio}`, eur(facturado)], ["Pendiente de cobro", eur(c.pendiente)],
+      ["Vencido", eur(c.vencido)], ["Cobrado", eur(c.cobrado)],
     ] as [string, string][];
   }, [filas, hoy]);
 
@@ -94,6 +97,8 @@ export default function Facturas() {
       <div className="kpis">
         {kpis.map(([t, v]) => <div key={t}><span>{t}</span><b>{v}</b></div>)}
       </div>
+
+      <GraficasFacturacion facturas={filas} pagos={pagos} hoy={hoy} />
 
       {faltaE.length > 0 && (
         <p className="ventas-aviso-fiscal">
