@@ -94,7 +94,7 @@ export default function Presupuestos() {
             : "Ningún presupuesto coincide con los filtros."}
         </p>
       ) : (
-        <div className="tabla ventas-tabla">
+        <div className="tabla ventas-tabla" tabIndex={0} role="region" aria-label="Lista de presupuestos">
           <table>
             <caption className="ventas-solo-lectores">Lista de presupuestos</caption>
             <thead>

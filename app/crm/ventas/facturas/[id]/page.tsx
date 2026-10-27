@@ -10,6 +10,7 @@ import {
 } from "@/lib/ventas/facturas";
 import { Linea, baseLinea, fechaCorta, hoyISO, lineaVacia, mensajeError, totales } from "@/lib/ventas/presupuestos";
 import Modal from "../../../Modal";
+import Migas from "../../../Migas";
 import { usePerfil } from "../../../PerfilContext";
 import EstadoFactura from "../../EstadoFactura";
 
@@ -191,7 +192,7 @@ export default function DetalleFactura() {
 
   return (
     <>
-      <Link href="/crm/ventas/facturas" className="volver">← Facturas</Link>
+      <Migas ruta={[{ texto: "Ventas", href: "/crm/ventas" }, { texto: "Facturas", href: "/crm/ventas/facturas" }, { texto: f.numero ?? "Borrador" }]} />
 
       <div className="ventas-pantalla">
         <header className="ventas-cab-doc">
@@ -263,14 +264,14 @@ export default function DetalleFactura() {
                 {catalogo.map((s) => <option key={s.id} value={s.id}>{s.codigo} · {s.nombre} ({eur(Number(s.precio_unitario))})</option>)}
               </select>
             </label>
-            <button type="button" className="btn peq" onClick={() => { setLineas((p) => [...p, lineaVacia()]); setSucio(true); }}>Añadir línea libre</button>
+            <button type="button" className="btn sec peq" onClick={() => { setLineas((p) => [...p, lineaVacia()]); setSucio(true); }}>Añadir línea libre</button>
           </div>
         )}
 
         {lineas.length === 0 ? (
           <p className="vacio">Esta factura no tiene líneas.</p>
         ) : (
-          <div className="tabla ventas-tabla ventas-lineas">
+          <div className="tabla ventas-tabla ventas-lineas" tabIndex={0} role="region" aria-label="Líneas de la factura">
             <table>
               <caption className="ventas-solo-lectores">Líneas de la factura {f.numero ?? "en borrador"}</caption>
               <thead>
@@ -337,7 +338,7 @@ export default function DetalleFactura() {
           <>
             <h3 className="subtitulo">Cobros</h3>
             {pagos.length === 0 ? <p className="vacio">Todavía no se ha registrado ningún cobro.</p> : (
-              <div className="tabla ventas-tabla ventas-pagos">
+              <div className="tabla ventas-tabla ventas-pagos" tabIndex={0} role="region" aria-label="Cobros registrados">
                 <table>
                   <caption className="ventas-solo-lectores">Cobros de la factura {f.numero}</caption>
                   <thead><tr>
@@ -351,7 +352,7 @@ export default function DetalleFactura() {
                         <td>{fechaCorta(p.fecha)}</td><td>{p.metodo}</td><td>{p.referencia ?? "—"}</td>
                         <td className="num">{eur(p.importe)}</td>
                         {es_finanzas && <td><div className="acciones">
-                          <button type="button" disabled={ocupado} onClick={() => quitarPago(p)}
+                          <button type="button" className="peligro" disabled={ocupado} onClick={() => quitarPago(p)}
                             aria-label={`Eliminar el cobro de ${eur(p.importe)} del ${fechaCorta(p.fecha)}`}>Eliminar</button>
                         </div></td>}
                       </tr>
@@ -370,11 +371,11 @@ export default function DetalleFactura() {
           {editable && <>
             <button type="button" className="btn" disabled={ocupado || !sucio} onClick={guardar}>Guardar cambios</button>
             <button type="button" className="btn sec" disabled={ocupado} onClick={() => { setError(""); setAccion("emitir"); }}>Emitir factura</button>
-            <button type="button" className="btn sec" disabled={ocupado} onClick={() => { setError(""); setAccion("eliminar"); }}>Eliminar borrador</button>
+            <button type="button" className="btn sec peligro ventas-aparte" disabled={ocupado} onClick={() => { setError(""); setAccion("eliminar"); }}>Eliminar borrador</button>
           </>}
           {!esRect && f.estado === "emitida" && es_finanzas && <>
             <button type="button" className="btn" disabled={ocupado} onClick={() => { setError(""); setAccion("cobro"); }}>Registrar cobro</button>
-            <button type="button" className="btn sec" disabled={ocupado} onClick={() => { setError(""); setAccion("anular"); }}>Anular factura</button>
+            <button type="button" className="btn sec peligro ventas-aparte" disabled={ocupado} onClick={() => { setError(""); setAccion("anular"); }}>Anular factura</button>
           </>}
           {!esRect && f.estado === "pagada" && es_finanzas && pagos.length > 0 &&
             <p className="ayuda">Para anular una factura pagada, elimina antes sus cobros.</p>}
@@ -403,7 +404,7 @@ export default function DetalleFactura() {
           <div className="ventas-form">
             <p>El borrador se borrará definitivamente. El presupuesto volverá a quedar pendiente de facturar.</p>
             <div className="ventas-acciones">
-              <button type="button" className="btn" disabled={ocupado} onClick={eliminar}>Eliminar</button>
+              <button type="button" className="btn peligro" disabled={ocupado} onClick={eliminar}>Eliminar borrador</button>
               <button type="button" className="btn sec" onClick={() => setAccion(null)}>Cancelar</button>
             </div>
           </div>
@@ -418,7 +419,7 @@ export default function DetalleFactura() {
               <textarea name="motivo" required minLength={5} maxLength={500} />
             </label>
             <div className="ventas-acciones">
-              <button className="btn" disabled={ocupado}>Anular y emitir rectificativa</button>
+              <button className="btn peligro" disabled={ocupado}>Anular y emitir rectificativa</button>
               <button type="button" className="btn sec" onClick={() => setAccion(null)}>Cancelar</button>
             </div>
             <p className="aviso" role="alert" data-tipo="error">{error}</p>

@@ -2,29 +2,29 @@
    Paleta validada: azul y naranja son los dos primeros colores categóricos; el gris y el rojo son neutro y crítico. */
 .graf-panel, .graf-kpis {
   --graf-1: #2a78d6; --graf-2: #eb6834; --graf-neutro: #898781; --graf-critico: #d03b3b;
-  --graf-ink: #0b0b0b; --graf-ink2: #52514e; --graf-rejilla: #e1e0d9; --graf-base: #c3c2b7;
+  --graf-ink: var(--ink); --graf-ink2: var(--text2); --graf-rejilla: #e1e0d9; --graf-base: #c3c2b7;
 }
 
-.graf-panel { background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 18px 22px 20px; }
-.graf-panel h2 { margin: 0 0 2px; font-size: 1.05rem; }
-.graf-panel .graf-sub { margin: 0 0 14px; color: var(--graf-ink2); font-size: .9rem; }
-.graf-rejilla-paneles { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 16px; margin-bottom: 24px; }
+.graf-panel { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 24px; box-shadow: 0 1px 2px rgba(15, 23, 42, .04); }
+.graf-panel h2 { margin: 0 0 4px; font-size: 1.125rem; }
+.graf-panel .graf-sub { margin: 0 0 16px; color: var(--graf-ink2); font-size: .875rem; }
+.graf-rejilla-paneles { display: grid; grid-template-columns: repeat(auto-fit, minmax(344px, 1fr)); gap: 16px; margin-bottom: 24px; }
 @media (max-width: 420px) { .graf-rejilla-paneles { grid-template-columns: 1fr; } }
 
 /* Cifras destacadas */
 .graf-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 0 0 24px; }
-.graf-kpi { background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 14px 18px; display: grid; gap: 4px; align-content: start; }
-.graf-kpi dt { color: var(--graf-ink2); font-size: .85rem; }
+.graf-kpi { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 16px 24px; display: grid; gap: 4px; align-content: start; box-shadow: 0 1px 2px rgba(15, 23, 42, .04); }
+.graf-kpi dt { color: var(--graf-ink2); font-size: .875rem; }
 .graf-kpi dd { margin: 0; font-size: 1.75rem; font-weight: 600; color: var(--graf-ink); }
-.graf-kpi .graf-nota { display: block; font-size: .85rem; font-weight: 400; color: var(--graf-ink2); }
+.graf-kpi .graf-nota { display: block; font-size: .8125rem; font-weight: 400; color: var(--graf-ink2); }
 
 /* Barras horizontales */
-.graf-hbarras { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
-.graf-hbarras li { display: grid; grid-template-columns: minmax(5.5rem, 8rem) 1fr auto; align-items: center; gap: 12px; }
-.graf-etq { font-size: .9rem; color: var(--graf-ink); }
+.graf-hbarras { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
+.graf-hbarras li { display: grid; grid-template-columns: minmax(5.5rem, 8rem) 1fr auto; align-items: center; gap: 16px; }
+.graf-etq { font-size: .9375rem; color: var(--graf-ink); }
 .graf-pista { display: block; height: 14px; }
 .graf-barra { display: block; height: 14px; border-radius: 0 4px 4px 0; }
-.graf-val { font-size: .9rem; color: var(--graf-ink); text-align: right; white-space: nowrap; }
+.graf-val { font-size: .9375rem; color: var(--graf-ink); text-align: right; white-space: nowrap; }
 @media (max-width: 480px) {
   .graf-hbarras li { grid-template-columns: 1fr auto; row-gap: 4px; }
   .graf-pista { grid-column: 1 / -1; grid-row: 2; }
@@ -33,19 +33,19 @@
 /* Columnas (SVG) */
 .graf-fig { margin: 0; display: grid; gap: 10px; }
 .graf-scroll { overflow-x: auto; }
-.graf-scroll:focus-visible { outline: 3px solid #0a0a0a; outline-offset: 2px; }
+.graf-scroll:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 .graf-svg { display: block; width: 100%; min-width: 440px; height: auto; }
 .graf-texto { font: 12px system-ui, -apple-system, "Segoe UI", sans-serif; fill: var(--graf-ink2); }
 .graf-rejilla { stroke: var(--graf-rejilla); stroke-width: 1; }
 .graf-base { stroke: var(--graf-base); stroke-width: 1; }
-.graf-leyenda { list-style: none; display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 0; padding: 0; font-size: .9rem; }
+.graf-leyenda { list-style: none; display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 0; padding: 0; font-size: .875rem; }
 .graf-leyenda li { display: flex; align-items: center; gap: 8px; }
 .graf-clave { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
 
-.graf-tabla summary { cursor: pointer; font-size: .9rem; width: fit-content; }
-.graf-tabla summary:focus-visible { outline: 3px solid #0a0a0a; outline-offset: 2px; }
-.graf-tabla table { border-collapse: collapse; margin-top: 8px; font-size: .9rem; width: 100%; max-width: 560px; }
-.graf-tabla th, .graf-tabla td { text-align: left; padding: 5px 10px; border-bottom: 1px solid var(--line); }
+.graf-tabla summary { cursor: pointer; font-size: .875rem; font-weight: 500; color: var(--accent); width: fit-content; min-height: 24px; }
+.graf-tabla summary:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.graf-tabla table { border-collapse: collapse; margin-top: 8px; font-size: .875rem; width: 100%; max-width: 560px; }
+.graf-tabla th, .graf-tabla td { text-align: left; padding: 8px 16px; border-bottom: 1px solid var(--line); }
 .graf-tabla td { text-align: right; }
 .graf-solo-lectores { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .graf-vacio { color: var(--graf-ink2); margin: 0; }

@@ -76,7 +76,7 @@ export default function Servicios() {
       {!cargando && visibles.length === 0 ? (
         <p className="vacio">{items.length === 0 ? "El catálogo está vacío. Crea el primer servicio." : "Ningún servicio coincide con la búsqueda."}</p>
       ) : (
-        <div className="tabla ventas-tabla">
+        <div className="tabla ventas-tabla" tabIndex={0} role="region" aria-label="Catálogo de servicios">
           <table>
             <caption className="ventas-solo-lectores">Catálogo de servicios</caption>
             <thead>

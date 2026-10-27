@@ -7,6 +7,7 @@ import { iniciales, colorDe } from "@/lib/avatar";
 import type { Empleado, Empresa, Oportunidad } from "@/lib/tipos";
 import { DatosFiscales, direccionCompleta, faltaParaFacturar } from "@/lib/ventas/base";
 import Modal from "../../Modal";
+import Migas from "../../Migas";
 import "../../ventas/ventas.css";
 
 type EmpleadoConOp = Empleado & { oportunidad: Pick<Oportunidad, "nombre" | "servicio" | "estado"> | null };
@@ -60,7 +61,7 @@ export default function DetalleEmpresa() {
 
   return (
     <>
-      <Link href="/crm/empresas" className="volver">← Empresas</Link>
+      <Migas ruta={[{ texto: "Empresas", href: "/crm/empresas" }, { texto: empresa.nombre }]} />
       <div className="detalle-cab">
         <span className="icono-empresa grande" aria-hidden>🏢</span>
         <div>

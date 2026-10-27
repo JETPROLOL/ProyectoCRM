@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useParams, notFound } from "next/navigation";
 import Link from "next/link";
+import Migas from "../../Migas";
 import { supabase } from "@/lib/supabase";
 import { iniciales, colorDe } from "@/lib/avatar";
 import { euros } from "@/lib/tipos";
@@ -29,7 +30,7 @@ export default function DetalleEmpleado() {
 
   return (
     <>
-      <Link href="/crm/empleados" className="volver">← Empleados</Link>
+      <Migas ruta={[{ texto: "Empleados", href: "/crm/empleados" }, { texto: m.nombre }]} />
       <div className="detalle-cab">
         <span className="avatar grande" style={{ background: colorDe(m.id) }} aria-hidden>{iniciales(m.nombre)}</span>
         <div>

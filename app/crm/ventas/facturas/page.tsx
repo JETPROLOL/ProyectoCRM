@@ -146,7 +146,7 @@ export default function Facturas() {
             : "Ninguna factura coincide con los filtros."}
         </p>
       ) : (
-        <div className="tabla ventas-tabla">
+        <div className="tabla ventas-tabla" tabIndex={0} role="region" aria-label="Lista de facturas">
           <table>
             <caption className="ventas-solo-lectores">Lista de facturas</caption>
             <thead>
