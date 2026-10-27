@@ -59,3 +59,15 @@ export const faltaEmisor = (e: Partial<DatosEmisor> | null) => {
   if (!e?.direccion?.trim() || !e?.codigo_postal || !e?.ciudad) f.push("dirección");
   return f;
 };
+
+// Estado de la cartera de cobro (en euros): lo cobrado y lo pendiente, separando lo ya vencido
+export function cartera(filas: Base[], hoy: string = hoyISO()) {
+  let pend = 0, venc = 0, cobrado = 0;
+  for (const f of filas) {
+    const p = Math.round(pendiente(f) * 100);
+    pend += p;
+    if (f.fecha_vencimiento && f.fecha_vencimiento < hoy) venc += p;
+    if (f.tipo === "ordinaria" && f.estado !== "anulada") cobrado += Math.round(f.pagado * 100);
+  }
+  return { pendiente: pend / 100, vencido: venc / 100, enPlazo: (pend - venc) / 100, cobrado: cobrado / 100 };
+}
