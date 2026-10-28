@@ -3,6 +3,7 @@ import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { Servicio, TIPOS_IVA, UNIDADES, eur } from "@/lib/ventas/base";
 import Modal from "../../Modal";
+import Icono from "../../Icono";
 
 export default function Servicios() {
   const [items, setItems] = useState<Servicio[]>([]);
@@ -68,7 +69,7 @@ export default function Servicios() {
           <input type="checkbox" checked={verInactivos} onChange={(e) => setVerInactivos(e.target.checked)} />
           Mostrar desactivados
         </label>
-        <button className="btn" onClick={() => { setError(""); setAviso(""); setEditando("nuevo"); }}>Nuevo servicio</button>
+        <button className="btn" onClick={() => { setError(""); setAviso(""); setEditando("nuevo"); }}><Icono nombre="plus" />Nuevo servicio</button>
       </div>
 
       <p className="aviso" role="status" data-tipo={error ? "error" : "ok"}>{editando === null ? error || aviso : ""}</p>

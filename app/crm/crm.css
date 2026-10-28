@@ -318,3 +318,9 @@
 }
 .crm[data-colapsado=true] .lateral nav .lat-grupo-btn:hover::after, .crm[data-colapsado=true] .lateral nav .lat-grupo-btn:focus-visible::after { opacity: 1; }
 .crm .lateral nav .lat-grupo-btn:focus-visible { outline-color: #fff; }
+
+/* Iconos en botones: decorativos, heredan el color del texto y no encogen */
+.crm .ico{width:16px;height:16px;flex:none;display:inline-block;vertical-align:-3px}
+.crm .btn .ico{margin-right:0}
+.crm button:has(> .ico){display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap}
+@media (forced-colors:active){.crm .ico{forced-color-adjust:auto}}

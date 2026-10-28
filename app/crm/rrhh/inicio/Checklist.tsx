@@ -2,6 +2,7 @@
 import { FormEvent, useState } from "react";
 import { CheckInicio, progreso } from "@/lib/rrhh/inicio";
 import Barra from "./Barra";
+import Icono from "../../Icono";
 
 type Props = {
   tareas: CheckInicio[];
@@ -30,7 +31,7 @@ export default function Checklist({ tareas, error, onAlternar, onAnadir, onQuita
       <p className="inicio-estado">{total === 0 ? "Este trabajador aún no tiene tareas." : `${hechas} de ${total} tareas hechas`}</p>
 
       {total === 0 ? (
-        <button type="button" className="btn" onClick={onEstandar}>Añadir tareas estándar</button>
+        <button type="button" className="btn" onClick={onEstandar}><Icono nombre="plus" />Añadir tareas estándar</button>
       ) : (
         <ul>
           {tareas.map((t) => (
@@ -48,7 +49,7 @@ export default function Checklist({ tareas, error, onAlternar, onAnadir, onQuita
 
       <form className="inicio-nueva" onSubmit={anadir}>
         <input value={nueva} onChange={(e) => setNueva(e.target.value)} maxLength={120} placeholder="Añadir otra tarea" aria-label="Nueva tarea" />
-        <button className="btn peq">Añadir</button>
+        <button className="btn peq"><Icono nombre="plus" />Añadir</button>
       </form>
       <p className="aviso" role="alert" data-tipo="error">{error}</p>
     </div>

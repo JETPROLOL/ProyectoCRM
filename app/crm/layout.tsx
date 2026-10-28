@@ -7,6 +7,7 @@ import { supabase } from "@/lib/supabase";
 import { Perfil, SIN_PERFIL } from "@/lib/rrhh/base";
 import { PerfilProvider } from "./PerfilContext";
 import { SECCIONES_RRHH } from "./rrhh/secciones";
+import Icono from "./Icono";
 import "./crm.css";
 
 // Iconos del menú (solo presentación)
@@ -52,7 +53,7 @@ function Login() {
         <h1>Acceso al CRM</h1>
         <label>Correo electrónico<input name="email" type="email" required autoComplete="email" /></label>
         <label>Contraseña<input name="password" type="password" required autoComplete="current-password" /></label>
-        <button className="btn">Entrar</button>
+        <button className="btn"><Icono nombre="login" />Entrar</button>
         <p className="aviso" role="alert" data-tipo="error">{error}</p>
       </form>
     </main>

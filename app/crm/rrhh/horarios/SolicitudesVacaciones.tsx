@@ -3,6 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import Modal from "../../Modal";
 import { ETIQUETA_VAC, EstadoVacaciones, Vacacion, diasLaborables, rangoFechas, seSolapan } from "@/lib/rrhh/horarios";
+import Icono from "../../Icono";
 
 type Filtro = EstadoVacaciones | "todas";
 
@@ -74,7 +75,7 @@ export default function SolicitudesVacaciones() {
               {v.respuesta && <p className="tenue">Respuesta: {v.respuesta}</p>}
             </div>
             <span className="horarios-estado-vac" data-estado={v.estado}>{ETIQUETA_VAC[v.estado]}</span>
-            {v.estado === "pendiente" && <button type="button" className="btn peq" onClick={() => abrir(v)}>Revisar</button>}
+            {v.estado === "pendiente" && <button type="button" className="btn peq" onClick={() => abrir(v)}><Icono nombre="eye" />Revisar</button>}
           </li>
         ))}
       </ul>
@@ -91,8 +92,8 @@ export default function SolicitudesVacaciones() {
             )}
             <label>Respuesta (opcional)<textarea rows={2} maxLength={500} value={respuesta} onChange={(e) => setRespuesta(e.target.value)} /></label>
             <div className="horarios-botones">
-              <button type="button" className="btn" disabled={ocupado} onClick={() => resolver(true)}>Aprobar</button>
-              <button type="button" className="btn horarios-sec" disabled={ocupado} onClick={() => resolver(false)}>Rechazar</button>
+              <button type="button" className="btn" disabled={ocupado} onClick={() => resolver(true)}><Icono nombre="check" />Aprobar</button>
+              <button type="button" className="btn horarios-sec" disabled={ocupado} onClick={() => resolver(false)}><Icono nombre="x" />Rechazar</button>
             </div>
             <p className="aviso" role="alert" data-tipo="error">{error}</p>
           </div>

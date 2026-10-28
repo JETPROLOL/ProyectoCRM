@@ -8,6 +8,7 @@ import type { Empleado, Empresa, Oportunidad } from "@/lib/tipos";
 import { DatosFiscales, direccionCompleta, faltaParaFacturar } from "@/lib/ventas/base";
 import Modal from "../../Modal";
 import Migas from "../../Migas";
+import Icono from "../../Icono";
 import "../../ventas/ventas.css";
 
 type EmpleadoConOp = Empleado & { oportunidad: Pick<Oportunidad, "nombre" | "servicio" | "estado"> | null };
@@ -80,7 +81,7 @@ export default function DetalleEmpresa() {
         {faltan.length > 0 && (
           <p className="ventas-aviso-fiscal">Para poder facturar a esta empresa falta: {faltan.join(", ")}.</p>
         )}
-        <button type="button" className="btn peq" onClick={() => { setError(""); setAviso(""); setEditando(true); }}>Editar datos fiscales</button>
+        <button type="button" className="btn peq" onClick={() => { setError(""); setAviso(""); setEditando(true); }}><Icono nombre="pencil" />Editar datos fiscales</button>
         <p className="aviso" role="status" data-tipo="ok">{editando ? "" : aviso}</p>
       </section>
 
@@ -104,7 +105,7 @@ export default function DetalleEmpresa() {
               <label>Teléfono<input name="telefono" type="tel" minLength={5} maxLength={30} defaultValue={empresa.telefono ?? ""} autoComplete="tel" /></label>
             </div>
             <label>Correo de facturación<input name="email_facturacion" type="email" maxLength={160} defaultValue={empresa.email_facturacion ?? ""} /></label>
-            <button className="btn">Guardar datos fiscales</button>
+            <button className="btn"><Icono nombre="save" />Guardar datos fiscales</button>
             <p className="aviso" role="alert" data-tipo="error">{error}</p>
           </form>
         )}

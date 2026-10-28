@@ -14,6 +14,7 @@ import Modal from "../../../Modal";
 import Migas from "../../../Migas";
 import { usePerfil } from "../../../PerfilContext";
 import Estado from "../../Estado";
+import Icono from "../../../Icono";
 
 type Detalle = Presupuesto & {
   empresa: (Empresa & Partial<DatosFiscales>) | null;
@@ -206,7 +207,7 @@ export default function EditorPresupuesto() {
                 {factura
                   ? <>Factura: <Link href={`/crm/ventas/facturas/${factura.id}`}>{factura.numero ?? "borrador de factura"}</Link></>
                   : es_finanzas
-                    ? <button type="button" className="btn peq" disabled={ocupado} onClick={crearFactura}>Crear factura</button>
+                    ? <button type="button" className="btn peq" disabled={ocupado} onClick={crearFactura}><Icono nombre="file-text" />Crear factura</button>
                     : "Pendiente de facturar por finanzas."}
               </p>
             )}
@@ -243,7 +244,7 @@ export default function EditorPresupuesto() {
               </select>
             </label>
             <button type="button" className="btn sec peq" onClick={() => { setLineas((prev) => [...prev, lineaVacia()]); setSucio(true); }}>
-              Añadir línea libre
+              <Icono nombre="plus" />Añadir línea libre
             </button>
           </div>
         )}
@@ -298,7 +299,7 @@ export default function EditorPresupuesto() {
                       <td className="num"><b>{eur(baseLinea(l) / 100)}</b></td>
                       {editable && (
                         <td><div className="acciones">
-                          <button type="button" onClick={() => quitar(l.clave)} aria-label={`Quitar la línea ${n}: ${l.descripcion || "sin descripción"}`}>Quitar</button>
+                          <button type="button" onClick={() => quitar(l.clave)} aria-label={`Quitar la línea ${n}: ${l.descripcion || "sin descripción"}`}><Icono nombre="trash" />Quitar</button>
                         </div></td>
                       )}
                     </tr>
@@ -322,20 +323,20 @@ export default function EditorPresupuesto() {
 
         <div className="ventas-acciones">
           {editable && <>
-            <button type="button" className="btn" disabled={ocupado || !sucio} onClick={guardar}>Guardar cambios</button>
+            <button type="button" className="btn" disabled={ocupado || !sucio} onClick={guardar}><Icono nombre="save" />Guardar cambios</button>
             <button type="button" className="btn sec" disabled={ocupado}
-              onClick={() => pasarA("enviado", "Presupuesto marcado como enviado.")}>Marcar como enviado</button>
-            <button type="button" className="btn sec peligro ventas-aparte" disabled={ocupado} onClick={() => { setError(""); setConfirmar("eliminar"); }}>Eliminar borrador</button>
+              onClick={() => pasarA("enviado", "Presupuesto marcado como enviado.")}><Icono nombre="send" />Marcar como enviado</button>
+            <button type="button" className="btn sec peligro ventas-aparte" disabled={ocupado} onClick={() => { setError(""); setConfirmar("eliminar"); }}><Icono nombre="trash" />Eliminar borrador</button>
           </>}
           {p.estado === "enviado" && <>
-            <button type="button" className="btn" disabled={ocupado} onClick={() => { setError(""); setConfirmar("aceptar"); }}>Marcar como aceptado</button>
-            <button type="button" className="btn sec" disabled={ocupado} onClick={() => { setError(""); setConfirmar("rechazar"); }}>Marcar como rechazado</button>
+            <button type="button" className="btn" disabled={ocupado} onClick={() => { setError(""); setConfirmar("aceptar"); }}><Icono nombre="check" />Marcar como aceptado</button>
+            <button type="button" className="btn sec" disabled={ocupado} onClick={() => { setError(""); setConfirmar("rechazar"); }}><Icono nombre="x" />Marcar como rechazado</button>
           </>}
           {["enviado", "caducado", "rechazado"].includes(p.estado) &&
             <button type="button" className="btn sec" disabled={ocupado}
-              onClick={() => pasarA("borrador", "El presupuesto vuelve a ser un borrador.")}>Volver a borrador</button>}
+              onClick={() => pasarA("borrador", "El presupuesto vuelve a ser un borrador.")}><Icono nombre="undo" />Volver a borrador</button>}
           <button type="button" className="btn sec" disabled={sucio} onClick={() => window.print()}
-            title={sucio ? "Guarda los cambios antes de imprimir" : undefined}>Imprimir / PDF</button>
+            title={sucio ? "Guarda los cambios antes de imprimir" : undefined}><Icono nombre="printer" />Imprimir / PDF</button>
         </div>
       </div>
 
@@ -345,7 +346,7 @@ export default function EditorPresupuesto() {
             <p>{CONFIRMACION[confirmar].texto(eur(tot.total))}</p>
             <div className="ventas-acciones">
               <button type="button" className={confirmar === "eliminar" ? "btn peligro" : "btn"} disabled={ocupado} onClick={ejecutarConfirmacion}>{CONFIRMACION[confirmar].boton}</button>
-              <button type="button" className="btn sec" onClick={() => setConfirmar(null)}>Cancelar</button>
+              <button type="button" className="btn sec" onClick={() => setConfirmar(null)}><Icono nombre="x" />Cancelar</button>
             </div>
           </div>
         )}

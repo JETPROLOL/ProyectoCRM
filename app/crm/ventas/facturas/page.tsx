@@ -12,6 +12,7 @@ import Modal from "../../Modal";
 import { usePerfil } from "../../PerfilContext";
 import EstadoFactura from "../EstadoFactura";
 import GraficasFacturacion from "./GraficasFacturacion";
+import Icono from "../../Icono";
 import "../../graficas/graficas.css";
 
 type Fila = Factura & { empresa: { nombre: string } | null };
@@ -117,7 +118,7 @@ export default function Facturas() {
                   <Link href={`/crm/ventas/presupuestos/${p.id}`}>{p.numero}</Link> · {p.empresa?.nombre ?? "—"} · {eur(p.total)}
                 </span>
                 {es_finanzas && (
-                  <button type="button" className="btn peq" onClick={() => crear(p.id)} aria-label={`Crear factura del presupuesto ${p.numero}`}>Crear factura</button>
+                  <button type="button" className="btn peq" onClick={() => crear(p.id)} aria-label={`Crear factura del presupuesto ${p.numero}`}><Icono nombre="file-text" />Crear factura</button>
                 )}
               </li>
             ))}
@@ -133,7 +134,7 @@ export default function Facturas() {
             {FILTROS.map((s) => <option key={s} value={s}>{s === "todos" ? "Todos" : ETIQUETA_FACTURA[s]}</option>)}
           </select>
         </label>
-        <button type="button" className="btn sec" onClick={() => { setError(""); setVerEmisor(true); }}>Datos de la empresa</button>
+        <button type="button" className="btn sec" onClick={() => { setError(""); setVerEmisor(true); }}><Icono nombre="building" />Datos de la empresa</button>
       </div>
 
       <p className="aviso" role="alert" data-tipo="error">{verEmisor ? "" : error}</p>
@@ -200,7 +201,7 @@ export default function Facturas() {
               <label>Texto al pie de la factura (opcional)<textarea name="texto_pie" maxLength={500} defaultValue={emisor?.texto_pie ?? ""} /></label>
             </fieldset>
             {es_finanzas
-              ? <button className="btn">Guardar datos</button>
+              ? <button className="btn"><Icono nombre="save" />Guardar datos</button>
               : <p className="ayuda">Solo finanzas puede modificar estos datos.</p>}
             <p className="aviso" role="alert" data-tipo="error">{error}</p>
           </form>

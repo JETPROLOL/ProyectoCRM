@@ -5,6 +5,7 @@ import { supabase } from "@/lib/supabase";
 import { iniciales, colorDe } from "@/lib/avatar";
 import type { Empleado, Empresa, Oportunidad } from "@/lib/tipos";
 import Modal from "../Modal";
+import Icono from "../Icono";
 
 type Op = Pick<Oportunidad, "id" | "nombre" | "servicio" | "empleado_id">;
 
@@ -53,7 +54,7 @@ export default function Empleados() {
     <>
       <div className="cab">
         <h1>Empleados</h1>
-        <button className="btn" onClick={() => { setError(""); setAbierto(true); }}>Nuevo empleado</button>
+        <button className="btn" onClick={() => { setError(""); setAbierto(true); }}><Icono nombre="plus" />Nuevo empleado</button>
       </div>
 
       <div className="grid-tarjetas">
@@ -93,7 +94,7 @@ export default function Empleados() {
               {libres.map((o) => <option key={o.id} value={o.id}>{o.nombre}, {o.servicio}</option>)}
             </select>
           </label>
-          <button className="btn">Crear empleado</button>
+          <button className="btn"><Icono nombre="plus" />Crear empleado</button>
           <p className="aviso" role="alert" data-tipo="error">{error}</p>
         </form>
       </Modal>

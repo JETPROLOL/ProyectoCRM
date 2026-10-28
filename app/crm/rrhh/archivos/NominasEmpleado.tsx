@@ -4,6 +4,7 @@ import { supabase } from "@/lib/supabase";
 import { rutaArchivo, urlFirmada } from "@/lib/rrhh/archivos";
 import type { Empleado } from "@/lib/tipos";
 import { Nomina, etiquetaPeriodo, normalizar, validarNomina } from "@/lib/rrhh/nominas";
+import Icono from "../../Icono";
 
 // Mes anterior en formato AAAA-MM (las nóminas suelen ser del mes que acaba de cerrarse)
 function mesAnterior() {
@@ -118,8 +119,8 @@ export default function NominasEmpleado({ trabajador, nominas, esMia, esRrhh, on
                 <span className="arch-estado" data-firmada={n.firmada}>{n.firmada ? "Firmada" : "Sin firmar"}</span>
               </div>
               <div className="arch-acciones">
-                <button type="button" className="btn peq arch-sec" onClick={() => ver(n)}>Ver PDF</button>
-                {esMia && !n.firmada && firmando !== n.id && <button type="button" className="btn peq" onClick={() => empezarFirma(n)}>Firmar</button>}
+                <button type="button" className="btn peq arch-sec" onClick={() => ver(n)}><Icono nombre="eye" />Ver PDF</button>
+                {esMia && !n.firmada && firmando !== n.id && <button type="button" className="btn peq" onClick={() => empezarFirma(n)}><Icono nombre="pencil" />Firmar</button>}
                 {(esRrhh || (esMia && !n.firmada)) && <button type="button" className="arch-link" onClick={() => eliminar(n)}>Eliminar</button>}
               </div>
 
