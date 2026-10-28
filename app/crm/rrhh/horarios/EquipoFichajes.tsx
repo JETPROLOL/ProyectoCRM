@@ -5,6 +5,7 @@ import Modal from "../../Modal";
 import {
   Fichaje, aInputLocal, deInputLocal, dia, duracionMs, fechaLarga, hora, horasMin,
 } from "@/lib/rrhh/horarios";
+import Icono from "../../Icono";
 
 type Persona = { id: string; nombre: string; puesto: string | null; estado: "activo" | "baja" };
 type Edicion = { fichaje: Fichaje | null; empleadoId: string };
@@ -115,7 +116,7 @@ export default function EquipoFichajes() {
                     </tbody>
                   </table>
                 </div>
-                <button type="button" className="btn peq" onClick={() => setEdicion({ fichaje: null, empleadoId: p.id })}>Añadir fichaje manual</button>
+                <button type="button" className="btn peq" onClick={() => setEdicion({ fichaje: null, empleadoId: p.id })}><Icono nombre="plus" />Añadir fichaje manual</button>
               </div>
             )}
           </section>

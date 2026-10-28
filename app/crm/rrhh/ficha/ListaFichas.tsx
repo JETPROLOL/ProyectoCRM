@@ -5,6 +5,7 @@ import type { Empleado } from "@/lib/tipos";
 import Modal from "../../Modal";
 import FichaForm from "./FichaForm";
 import FotoTrabajador from "./FotoTrabajador";
+import Icono from "../../Icono";
 
 // Vista de RRHH: toda la plantilla, con alta y edición
 export default function ListaFichas() {
@@ -36,7 +37,7 @@ export default function ListaFichas() {
           <option value="baja">Bajas</option>
           <option value="todos">Todos</option>
         </select>
-        <button className="btn" onClick={() => setEditando("nuevo")}>Nuevo trabajador</button>
+        <button className="btn" onClick={() => setEditando("nuevo")}><Icono nombre="plus" />Nuevo trabajador</button>
       </div>
 
       {aviso && (

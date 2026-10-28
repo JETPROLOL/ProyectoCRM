@@ -5,6 +5,7 @@ import { supabase } from "@/lib/supabase";
 import { iniciales, colorDe } from "@/lib/avatar";
 import type { Empleado, Empresa } from "@/lib/tipos";
 import Modal from "../Modal";
+import Icono from "../Icono";
 import "../ventas/ventas.css";
 
 export default function Empresas() {
@@ -72,7 +73,7 @@ export default function Empresas() {
     <>
       <div className="cab">
         <h1>Empresas</h1>
-        <button className="btn" onClick={() => { setError(""); setAbierto(true); }}>Nueva empresa</button>
+        <button className="btn" onClick={() => { setError(""); setAbierto(true); }}><Icono nombre="plus" />Nueva empresa</button>
       </div>
 
       <p className="aviso" role="status" data-tipo="ok">{aviso}</p>
@@ -132,7 +133,7 @@ export default function Empresas() {
             </div>
             <label>Correo de facturación<input name="email_facturacion" type="email" maxLength={160} /></label>
           </fieldset>
-          <button className="btn">Crear empresa</button>
+          <button className="btn"><Icono nombre="plus" />Crear empresa</button>
           <p className="aviso" role="alert" data-tipo="error">{error}</p>
         </form>
       </Modal>

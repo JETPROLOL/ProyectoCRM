@@ -5,6 +5,7 @@ import { supabase } from "@/lib/supabase";
 import { urlFirmada } from "@/lib/rrhh/archivos";
 import { ETIQUETA_SOLICITUD, EstadoSolicitud, SolicitudAdmision } from "@/lib/rrhh/admision";
 import Modal from "../../Modal";
+import Icono from "../../Icono";
 
 type Filtro = EstadoSolicitud | "todas";
 const fecha = (iso: string) => new Date(iso).toLocaleDateString("es-ES", { day: "numeric", month: "short", year: "numeric" });
@@ -105,14 +106,14 @@ export default function ListaSolicitudes() {
             </div>
             <span className="admision-estado" data-estado={s.estado}>{ETIQUETA_SOLICITUD[s.estado]}</span>
             <div className="admision-acciones">
-              <button type="button" className="btn peq admision-sec" onClick={() => verCv(s)}>Ver currículum</button>
+              <button type="button" className="btn peq admision-sec" onClick={() => verCv(s)}><Icono nombre="eye" />Ver currículum</button>
               {s.estado === "pendiente" ? (
                 <>
-                  <button type="button" className="btn peq" disabled={ocupado === s.id} onClick={() => aceptar(s)}>Aceptar</button>
-                  <button type="button" className="btn peq admision-sec" disabled={ocupado === s.id} onClick={() => { setMotivo(""); setAviso(null); setDenegando(s); }}>Denegar</button>
+                  <button type="button" className="btn peq" disabled={ocupado === s.id} onClick={() => aceptar(s)}><Icono nombre="check" />Aceptar</button>
+                  <button type="button" className="btn peq admision-sec" disabled={ocupado === s.id} onClick={() => { setMotivo(""); setAviso(null); setDenegando(s); }}><Icono nombre="x" />Denegar</button>
                 </>
               ) : (
-                <button type="button" className="btn peq admision-sec" onClick={() => eliminar(s)}>Eliminar</button>
+                <button type="button" className="btn peq admision-sec" onClick={() => eliminar(s)}><Icono nombre="trash" />Eliminar</button>
               )}
             </div>
           </li>
@@ -126,7 +127,7 @@ export default function ListaSolicitudes() {
             <label>Motivo (opcional, solo lo verá RRHH)
               <textarea rows={3} maxLength={500} value={motivo} onChange={(e) => setMotivo(e.target.value)} />
             </label>
-            <button type="button" className="btn" disabled={ocupado === denegando.id} onClick={denegar}>Denegar solicitud</button>
+            <button type="button" className="btn" disabled={ocupado === denegando.id} onClick={denegar}><Icono nombre="x" />Denegar solicitud</button>
           </div>
         )}
       </Modal>

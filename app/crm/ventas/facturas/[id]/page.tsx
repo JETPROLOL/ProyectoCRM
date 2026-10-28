@@ -13,6 +13,7 @@ import Modal from "../../../Modal";
 import Migas from "../../../Migas";
 import { usePerfil } from "../../../PerfilContext";
 import EstadoFactura from "../../EstadoFactura";
+import Icono from "../../../Icono";
 
 type Detalle = Factura & {
   empresa: (Empresa & Partial<DatosFiscales>) | null;
@@ -264,7 +265,7 @@ export default function DetalleFactura() {
                 {catalogo.map((s) => <option key={s.id} value={s.id}>{s.codigo} · {s.nombre} ({eur(Number(s.precio_unitario))})</option>)}
               </select>
             </label>
-            <button type="button" className="btn sec peq" onClick={() => { setLineas((p) => [...p, lineaVacia()]); setSucio(true); }}>Añadir línea libre</button>
+            <button type="button" className="btn sec peq" onClick={() => { setLineas((p) => [...p, lineaVacia()]); setSucio(true); }}><Icono nombre="plus" />Añadir línea libre</button>
           </div>
         )}
 
@@ -316,7 +317,7 @@ export default function DetalleFactura() {
                       <td className="num"><b>{eur(baseLinea(l) / 100)}</b></td>
                       {editable && <td><div className="acciones">
                         <button type="button" onClick={() => { setLineas((p) => p.filter((x) => x.clave !== l.clave)); setSucio(true); }}
-                          aria-label={`Quitar la línea ${n}: ${l.descripcion || "sin descripción"}`}>Quitar</button>
+                          aria-label={`Quitar la línea ${n}: ${l.descripcion || "sin descripción"}`}><Icono nombre="trash" />Quitar</button>
                       </div></td>}
                     </tr>
                   );
@@ -353,7 +354,7 @@ export default function DetalleFactura() {
                         <td className="num">{eur(p.importe)}</td>
                         {es_finanzas && <td><div className="acciones">
                           <button type="button" className="peligro" disabled={ocupado} onClick={() => quitarPago(p)}
-                            aria-label={`Eliminar el cobro de ${eur(p.importe)} del ${fechaCorta(p.fecha)}`}>Eliminar</button>
+                            aria-label={`Eliminar el cobro de ${eur(p.importe)} del ${fechaCorta(p.fecha)}`}><Icono nombre="trash" />Eliminar</button>
                         </div></td>}
                       </tr>
                     ))}
@@ -369,17 +370,17 @@ export default function DetalleFactura() {
 
         <div className="ventas-acciones">
           {editable && <>
-            <button type="button" className="btn" disabled={ocupado || !sucio} onClick={guardar}>Guardar cambios</button>
-            <button type="button" className="btn sec" disabled={ocupado} onClick={() => { setError(""); setAccion("emitir"); }}>Emitir factura</button>
-            <button type="button" className="btn sec peligro ventas-aparte" disabled={ocupado} onClick={() => { setError(""); setAccion("eliminar"); }}>Eliminar borrador</button>
+            <button type="button" className="btn" disabled={ocupado || !sucio} onClick={guardar}><Icono nombre="save" />Guardar cambios</button>
+            <button type="button" className="btn sec" disabled={ocupado} onClick={() => { setError(""); setAccion("emitir"); }}><Icono nombre="send" />Emitir factura</button>
+            <button type="button" className="btn sec peligro ventas-aparte" disabled={ocupado} onClick={() => { setError(""); setAccion("eliminar"); }}><Icono nombre="trash" />Eliminar borrador</button>
           </>}
           {!esRect && f.estado === "emitida" && es_finanzas && <>
-            <button type="button" className="btn" disabled={ocupado} onClick={() => { setError(""); setAccion("cobro"); }}>Registrar cobro</button>
-            <button type="button" className="btn sec peligro ventas-aparte" disabled={ocupado} onClick={() => { setError(""); setAccion("anular"); }}>Anular factura</button>
+            <button type="button" className="btn" disabled={ocupado} onClick={() => { setError(""); setAccion("cobro"); }}><Icono nombre="cash" />Registrar cobro</button>
+            <button type="button" className="btn sec peligro ventas-aparte" disabled={ocupado} onClick={() => { setError(""); setAccion("anular"); }}><Icono nombre="ban" />Anular factura</button>
           </>}
           {!esRect && f.estado === "pagada" && es_finanzas && pagos.length > 0 &&
             <p className="ayuda">Para anular una factura pagada, elimina antes sus cobros.</p>}
-          {emitida && <button type="button" className="btn sec" onClick={() => window.print()}>Imprimir / PDF</button>}
+          {emitida && <button type="button" className="btn sec" onClick={() => window.print()}><Icono nombre="printer" />Imprimir / PDF</button>}
         </div>
       </div>
 
@@ -391,8 +392,8 @@ export default function DetalleFactura() {
             <p><b>Desde ese momento la factura no se podrá modificar ni borrar.</b> Si hubiera un error, tendrás que anularla con una rectificativa.</p>
             <p>Total a facturar: <b>{eur(tot.total)}</b></p>
             <div className="ventas-acciones">
-              <button type="button" className="btn" disabled={ocupado} onClick={emitir}>Emitir factura</button>
-              <button type="button" className="btn sec" onClick={() => setAccion(null)}>Cancelar</button>
+              <button type="button" className="btn" disabled={ocupado} onClick={emitir}><Icono nombre="send" />Emitir factura</button>
+              <button type="button" className="btn sec" onClick={() => setAccion(null)}><Icono nombre="x" />Cancelar</button>
             </div>
             <p className="aviso" role="alert" data-tipo="error">{error}</p>
           </div>
@@ -404,8 +405,8 @@ export default function DetalleFactura() {
           <div className="ventas-form">
             <p>El borrador se borrará definitivamente. El presupuesto volverá a quedar pendiente de facturar.</p>
             <div className="ventas-acciones">
-              <button type="button" className="btn peligro" disabled={ocupado} onClick={eliminar}>Eliminar borrador</button>
-              <button type="button" className="btn sec" onClick={() => setAccion(null)}>Cancelar</button>
+              <button type="button" className="btn peligro" disabled={ocupado} onClick={eliminar}><Icono nombre="trash" />Eliminar borrador</button>
+              <button type="button" className="btn sec" onClick={() => setAccion(null)}><Icono nombre="x" />Cancelar</button>
             </div>
           </div>
         )}
@@ -419,8 +420,8 @@ export default function DetalleFactura() {
               <textarea name="motivo" required minLength={5} maxLength={500} />
             </label>
             <div className="ventas-acciones">
-              <button className="btn peligro" disabled={ocupado}>Anular y emitir rectificativa</button>
-              <button type="button" className="btn sec" onClick={() => setAccion(null)}>Cancelar</button>
+              <button className="btn peligro" disabled={ocupado}><Icono nombre="ban" />Anular y emitir rectificativa</button>
+              <button type="button" className="btn sec" onClick={() => setAccion(null)}><Icono nombre="x" />Cancelar</button>
             </div>
             <p className="aviso" role="alert" data-tipo="error">{error}</p>
           </form>
@@ -447,8 +448,8 @@ export default function DetalleFactura() {
               <label>Referencia (opcional)<input name="referencia" maxLength={100} /></label>
             </div>
             <div className="ventas-acciones">
-              <button className="btn" disabled={ocupado}>Registrar cobro</button>
-              <button type="button" className="btn sec" onClick={() => setAccion(null)}>Cancelar</button>
+              <button className="btn" disabled={ocupado}><Icono nombre="cash" />Registrar cobro</button>
+              <button type="button" className="btn sec" onClick={() => setAccion(null)}><Icono nombre="x" />Cancelar</button>
             </div>
             <p className="aviso" role="alert" data-tipo="error">{error}</p>
           </form>

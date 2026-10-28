@@ -10,6 +10,7 @@ import {
 } from "@/lib/ventas/presupuestos";
 import Modal from "../../Modal";
 import Estado from "../Estado";
+import Icono from "../../Icono";
 
 type Fila = Presupuesto & { empresa: { nombre: string } | null; vendedor: { nombre: string } | null };
 
@@ -82,7 +83,7 @@ export default function Presupuestos() {
             {ESTADOS_PRESUPUESTO.map((s) => <option key={s} value={s}>{ETIQUETA_ESTADO[s]}</option>)}
           </select>
         </label>
-        <button className="btn" onClick={() => { setError(""); setNuevo(true); }}>Nuevo presupuesto</button>
+        <button className="btn" onClick={() => { setError(""); setNuevo(true); }}><Icono nombre="plus" />Nuevo presupuesto</button>
       </div>
 
       <p className="aviso" role="alert" data-tipo="error">{nuevo ? "" : error}</p>
@@ -140,7 +141,7 @@ export default function Presupuestos() {
               </select>
             </label>
             <p className="ayuda">Después podrás añadir los servicios, descuentos e IVA.</p>
-            <button className="btn">Crear presupuesto</button>
+            <button className="btn"><Icono nombre="file-plus" />Crear presupuesto</button>
             <p className="aviso" role="alert" data-tipo="error">{error}</p>
           </form>
         ))}

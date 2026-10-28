@@ -7,6 +7,7 @@ import { ESTADOS, Empleado, Empresa, Estado, Oportunidad, euros } from "@/lib/ti
 import { mensajeError } from "@/lib/ventas/presupuestos";
 import Modal from "./Modal";
 import { usePerfil } from "./PerfilContext";
+import Icono from "./Icono";
 import "./ventas/ventas.css";
 
 type PresuDeOp = { id: string; numero: string; oportunidad_id: string; estado: string };
@@ -171,7 +172,7 @@ export default function Oportunidades() {
               </select>
             </label>
             <p className="ayuda">¿No está en la lista? Créala antes en <Link href="/crm/empresas">Empresas</Link>.</p>
-            <button className="btn">Crear presupuesto</button>
+            <button className="btn"><Icono nombre="file-plus" />Crear presupuesto</button>
             <p className="aviso" role="alert" data-tipo="error">{errorPresu}</p>
           </form>
         )}
