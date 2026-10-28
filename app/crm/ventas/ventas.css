@@ -1,5 +1,5 @@
 /* Módulo Ventas y Facturación. Todas las clases llevan el prefijo .ventas-
-   Usa los colores y espaciados de crm.css (variables --accent, --line, --st-*...; espaciados en múltiplos de 8 px).
+   Usa los colores y espaciados de crm.css (variables --ink, --line, --st-*...; espaciados en múltiplos de 8 px).
    Los estados (.ventas-estado) y las etiquetas (.ventas-etiqueta) se definen en crm.css. */
 .ventas-solo-lectores{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
@@ -7,7 +7,7 @@
 .ventas-tabs{display:flex;gap:8px;flex-wrap:wrap;border-bottom:1px solid var(--line);margin-bottom:24px}
 .ventas-tabs a{display:inline-flex;align-items:center;min-height:48px;padding:0 16px;text-decoration:none;color:var(--text2);font-weight:500;border-bottom:2px solid transparent;margin-bottom:-1px}
 .ventas-tabs a:hover{color:var(--ink)}
-.ventas-tabs a[aria-current=page]{color:var(--accent);font-weight:600;border-bottom-color:var(--accent)}
+.ventas-tabs a[aria-current=page]{color:var(--ink);font-weight:600;border-bottom-color:var(--ink)}
 
 .ventas-barra{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
 .ventas-barra .buscar{flex:1;min-width:224px;max-width:none}
@@ -16,15 +16,15 @@
 
 /* Tablas (position:relative mantiene dentro del recuadro los textos ocultos para lectores y evita el desplazamiento horizontal de toda la página) */
 .ventas-tabla{position:relative}
-.ventas-tabla:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.ventas-tabla:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
 .ventas-tabla table{width:100%;border-collapse:collapse}
 .ventas-tabla th,.ventas-tabla td{padding:12px 16px;text-align:left;vertical-align:middle}
 .ventas-tabla .num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 .ventas-tabla .cod{font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap}
 .ventas-tabla .sub{display:block;color:var(--muted);font-size:.8125rem}
 .ventas-tabla tr[data-inactivo=true] td{color:var(--muted)}
-.ventas-tabla a.cod{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
-.ventas-tabla a.cod:hover{color:var(--accent-h)}
+.ventas-tabla a.cod{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+.ventas-tabla a.cod:hover{color:var(--text2)}
 .ventas-tabla .acciones{display:flex;gap:8px;justify-content:flex-end;margin:0}
 .ventas-tabla .acciones button{margin:0;min-height:40px;padding:0 16px;font:500 .875rem var(--f-body),sans-serif;border:1px solid var(--control);border-radius:8px;background:#fff;color:var(--ink);cursor:pointer}
 .ventas-tabla .acciones button:hover{background:var(--steel);border-color:var(--ink)}
@@ -54,8 +54,8 @@
 /* Aviso de datos que faltan (ámbar, con icono y texto) */
 .ventas-aviso-fiscal{margin:0 0 16px;padding:16px 24px;background:var(--st-warn-bg);color:var(--st-warn-fg);border:1px solid var(--st-warn-bd);border-radius:12px;font-weight:500}
 .ventas-aviso-fiscal a,.ventas-contexto a,.ventas-situacion a,.ventas-pendiente a,.ventas-enlace{color:inherit;font-weight:600;text-decoration:underline;text-underline-offset:3px}
-.ventas-contexto a{color:var(--accent);font-weight:500}
-.ventas-contexto a:hover{color:var(--accent-h)}
+.ventas-contexto a{color:var(--ink);font-weight:500}
+.ventas-contexto a:hover{color:var(--text2)}
 .ventas-enlace{background:none;border:0;padding:0;font:inherit;font-weight:600;cursor:pointer}
 
 /* Cabecera del documento (presupuesto / factura) */
@@ -106,7 +106,7 @@
 .ventas-pendiente ul{list-style:none;padding:0;margin:0;display:grid;gap:8px}
 .ventas-pendiente li{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:8px}
 .ventas-pendiente li:first-child{border-top:0;padding-top:0}
-.ventas-pendiente a{color:var(--accent)}
+.ventas-pendiente a{color:var(--ink)}
 .ventas-pagos{margin-top:8px}
 
 /* Documento imprimible: oculto en pantalla */
