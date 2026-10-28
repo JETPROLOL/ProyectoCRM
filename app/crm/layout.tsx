@@ -6,6 +6,7 @@ import type { Session } from "@supabase/supabase-js";
 import { supabase } from "@/lib/supabase";
 import { Perfil, SIN_PERFIL } from "@/lib/rrhh/base";
 import { PerfilProvider } from "./PerfilContext";
+import { SECCIONES_RRHH } from "./rrhh/secciones";
 import "./crm.css";
 
 // Iconos del menú (solo presentación)
@@ -18,6 +19,7 @@ const IcoEmpleados = () => <Ico><circle cx="9" cy="8" r="3.5" /><path d="M2.5 20
 const IcoEmpresas = () => <Ico><path d="M4 21V4.5A1.5 1.5 0 0 1 5.5 3h8A1.5 1.5 0 0 1 15 4.5V21" /><path d="M15 9h3.5A1.5 1.5 0 0 1 20 10.5V21" /><path d="M2 21h20" /><path d="M8 7.5h3M8 11.5h3M8 15.5h3" /></Ico>;
 const IcoRrhh = () => <Ico><rect x="3" y="7" width="18" height="13" rx="2" /><path d="M9 7V5.5A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5V7" /><path d="M3 13h18" /></Ico>;
 const IcoVentas = () => <Ico><path d="M4 20V10" /><path d="M10 20V4" /><path d="M16 20v-8" /><path d="M22 20H2" /></Ico>;
+const IcoFlecha = () => <Ico><path d="M6 9l6 6 6-6" /></Ico>;
 const IcoMenu = () => <Ico><rect x="3" y="4" width="18" height="16" rx="2" /><path d="M9 4v16" /></Ico>;
 const IcoSalir = () => <Ico><path d="M9 21H5.5A1.5 1.5 0 0 1 4 19.5v-15A1.5 1.5 0 0 1 5.5 3H9" /><path d="M16 17l5-5-5-5" /><path d="M21 12H9" /></Ico>;
 
@@ -27,7 +29,7 @@ const SECCIONES = [
   { href: "/crm/empleados", nombre: "Empleados", icono: <IcoEmpleados /> },
   { href: "/crm/empresas", nombre: "Empresas", icono: <IcoEmpresas /> },
   { href: "/crm/ventas", nombre: "Ventas", icono: <IcoVentas />, soloVentas: true },
-  { href: "/crm/rrhh", nombre: "RRHH", icono: <IcoRrhh /> },
+  { href: "/crm/rrhh", nombre: "RRHH", icono: <IcoRrhh />, hijos: SECCIONES_RRHH },
 ];
 
 // "/crm" solo se marca activo en su página exacta; el resto también en sus subrutas
@@ -64,6 +66,7 @@ export default function CrmLayout({ children }: { children: ReactNode }) {
   const ruta = usePathname() ?? "";
   const uid = session?.user.id;
   const [colapsado, setColapsado] = useState(false);
+  const [rrhhAbierto, setRrhhAbierto] = useState(false);
 
   // Preferencia del menú: se recuerda; en pantallas pequeñas arranca contraído y se cierra al navegar
   useEffect(() => {
@@ -76,6 +79,18 @@ export default function CrmLayout({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (window.matchMedia("(max-width:860px)").matches) setColapsado(true);
   }, [ruta]);
+  // Al entrar en cualquier apartado de RRHH, el desplegable se abre solo
+  useEffect(() => {
+    if (ruta.startsWith("/crm/rrhh")) setRrhhAbierto(true);
+  }, [ruta]);
+  function alternarRrhh() {
+    // Con el menú contraído (solo iconos) no cabe el desplegable: se expande el menú y se abre
+    if (colapsado) {
+      setColapsado(false);
+      setRrhhAbierto(true);
+      try { localStorage.setItem("crm-menu", "0"); } catch { /* ignorar */ }
+    } else setRrhhAbierto((v) => !v);
+  }
   function alternarMenu() {
     const nuevo = !colapsado;
     setColapsado(nuevo);
@@ -116,12 +131,37 @@ export default function CrmLayout({ children }: { children: ReactNode }) {
             </button>
           </div>
           <nav aria-label="Secciones del CRM">
-            {SECCIONES.filter((s) => !s.soloVentas || perfil?.es_ventas).map((s) => (
-              <Link key={s.href} href={s.href} data-tip={s.nombre} aria-label={s.nombre}
-                aria-current={activa(ruta, s.href) ? "page" : undefined}>
-                <span className="lat-ico">{s.icono}</span><span className="lat-txt">{s.nombre}</span>
-              </Link>
-            ))}
+            {SECCIONES.filter((s) => !s.soloVentas || perfil?.es_ventas).map((s) => {
+              if (!s.hijos) {
+                return (
+                  <Link key={s.href} href={s.href} data-tip={s.nombre} aria-label={s.nombre}
+                    aria-current={activa(ruta, s.href) ? "page" : undefined}>
+                    <span className="lat-ico">{s.icono}</span><span className="lat-txt">{s.nombre}</span>
+                  </Link>
+                );
+              }
+              // Sección con apartados: desplegable dentro del propio menú
+              const dentro = activa(ruta, s.href);
+              const abierto = rrhhAbierto && !colapsado;
+              const idSub = "submenu-rrhh";
+              return (
+                <div key={s.href} className="lat-grupo" data-abierto={abierto} data-dentro={dentro}>
+                  <button type="button" className="lat-grupo-btn" data-tip={s.nombre} aria-expanded={abierto} aria-controls={idSub}
+                    aria-label={colapsado ? `${s.nombre}: expandir el menú y mostrar sus apartados` : undefined}
+                    data-activo={dentro && !abierto} onClick={alternarRrhh}>
+                    <span className="lat-ico">{s.icono}</span><span className="lat-txt">{s.nombre}</span>
+                    <span className="lat-flecha lat-txt" aria-hidden="true"><IcoFlecha /></span>
+                  </button>
+                  <ul id={idSub} className="lat-sub" hidden={!abierto}>
+                    {s.hijos.filter((h) => !h.soloRrhh || perfil?.es_rrhh).map((h) => (
+                      <li key={h.href}>
+                        <Link href={h.href} aria-current={ruta.startsWith(h.href) ? "page" : undefined}>{h.nombre}</Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              );
+            })}
           </nav>
         </aside>
         <div className="principal">
