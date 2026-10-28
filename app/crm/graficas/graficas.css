@@ -33,7 +33,7 @@
 /* Columnas (SVG) */
 .graf-fig { margin: 0; display: grid; gap: 10px; }
 .graf-scroll { overflow-x: auto; }
-.graf-scroll:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.graf-scroll:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
 .graf-svg { display: block; width: 100%; min-width: 440px; height: auto; }
 .graf-texto { font: 12px system-ui, -apple-system, "Segoe UI", sans-serif; fill: var(--graf-ink2); }
 .graf-rejilla { stroke: var(--graf-rejilla); stroke-width: 1; }
@@ -42,8 +42,8 @@
 .graf-leyenda li { display: flex; align-items: center; gap: 8px; }
 .graf-clave { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
 
-.graf-tabla summary { cursor: pointer; font-size: .875rem; font-weight: 500; color: var(--accent); width: fit-content; min-height: 24px; }
-.graf-tabla summary:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.graf-tabla summary { cursor: pointer; font-size: .875rem; font-weight: 500; color: var(--ink); width: fit-content; min-height: 24px; }
+.graf-tabla summary:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
 .graf-tabla table { border-collapse: collapse; margin-top: 8px; font-size: .875rem; width: 100%; max-width: 560px; }
 .graf-tabla th, .graf-tabla td { text-align: left; padding: 8px 16px; border-bottom: 1px solid var(--line); }
 .graf-tabla td { text-align: right; }
