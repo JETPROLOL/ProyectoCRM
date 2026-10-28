@@ -81,7 +81,7 @@ export default function Resumen() {
         </>
       )}
 
-      {es_ventas && <p><Link href="/crm/ventas/facturas">Ver la facturación y su evolución →</Link></p>}
+      {es_ventas && <p><Link href="/crm/ventas/facturas" className="volver">Ver la facturación y su evolución →</Link></p>}
     </>
   );
 }

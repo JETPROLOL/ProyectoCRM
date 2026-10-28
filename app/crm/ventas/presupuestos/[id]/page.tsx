@@ -11,6 +11,7 @@ import {
   Linea, Presupuesto, baseLinea, fechaCorta, lineaVacia, mensajeError, totales,
 } from "@/lib/ventas/presupuestos";
 import Modal from "../../../Modal";
+import Migas from "../../../Migas";
 import { usePerfil } from "../../../PerfilContext";
 import Estado from "../../Estado";
 
@@ -31,7 +32,7 @@ const CONFIRMACION: Record<Accion, { titulo: string; texto: (total: string) => s
     texto: () => "Se marcará como rechazado por el cliente. Podrás volver a abrirlo como borrador.",
   },
   eliminar: {
-    titulo: "Eliminar borrador", boton: "Eliminar",
+    titulo: "Eliminar borrador", boton: "Eliminar borrador",
     texto: () => "El borrador se borrará definitivamente. Esta acción no se puede deshacer.",
   },
 };
@@ -188,7 +189,7 @@ export default function EditorPresupuesto() {
 
   return (
     <>
-      <Link href="/crm/ventas/presupuestos" className="volver">← Presupuestos</Link>
+      <Migas ruta={[{ texto: "Ventas", href: "/crm/ventas" }, { texto: "Presupuestos", href: "/crm/ventas/presupuestos" }, { texto: p.numero }]} />
 
       <div className="ventas-pantalla">
         <header className="ventas-cab-doc">
@@ -241,7 +242,7 @@ export default function EditorPresupuesto() {
                 {catalogo.map((s) => <option key={s.id} value={s.id}>{s.codigo} · {s.nombre} ({eur(Number(s.precio_unitario))})</option>)}
               </select>
             </label>
-            <button type="button" className="btn peq" onClick={() => { setLineas((prev) => [...prev, lineaVacia()]); setSucio(true); }}>
+            <button type="button" className="btn sec peq" onClick={() => { setLineas((prev) => [...prev, lineaVacia()]); setSucio(true); }}>
               Añadir línea libre
             </button>
           </div>
@@ -250,7 +251,7 @@ export default function EditorPresupuesto() {
         {lineas.length === 0 ? (
           <p className="vacio">{editable ? "Este presupuesto aún no tiene líneas. Añade un servicio del catálogo o una línea libre." : "Este presupuesto no tiene líneas."}</p>
         ) : (
-          <div className="tabla ventas-tabla ventas-lineas">
+          <div className="tabla ventas-tabla ventas-lineas" tabIndex={0} role="region" aria-label="Líneas del presupuesto">
             <table>
               <caption className="ventas-solo-lectores">Líneas del presupuesto {p.numero}</caption>
               <thead>
@@ -324,11 +325,11 @@ export default function EditorPresupuesto() {
             <button type="button" className="btn" disabled={ocupado || !sucio} onClick={guardar}>Guardar cambios</button>
             <button type="button" className="btn sec" disabled={ocupado}
               onClick={() => pasarA("enviado", "Presupuesto marcado como enviado.")}>Marcar como enviado</button>
-            <button type="button" className="btn sec" disabled={ocupado} onClick={() => { setError(""); setConfirmar("eliminar"); }}>Eliminar borrador</button>
+            <button type="button" className="btn sec peligro ventas-aparte" disabled={ocupado} onClick={() => { setError(""); setConfirmar("eliminar"); }}>Eliminar borrador</button>
           </>}
           {p.estado === "enviado" && <>
-            <button type="button" className="btn" disabled={ocupado} onClick={() => { setError(""); setConfirmar("aceptar"); }}>Aceptar</button>
-            <button type="button" className="btn sec" disabled={ocupado} onClick={() => { setError(""); setConfirmar("rechazar"); }}>Rechazar</button>
+            <button type="button" className="btn" disabled={ocupado} onClick={() => { setError(""); setConfirmar("aceptar"); }}>Marcar como aceptado</button>
+            <button type="button" className="btn sec" disabled={ocupado} onClick={() => { setError(""); setConfirmar("rechazar"); }}>Marcar como rechazado</button>
           </>}
           {["enviado", "caducado", "rechazado"].includes(p.estado) &&
             <button type="button" className="btn sec" disabled={ocupado}
@@ -343,7 +344,7 @@ export default function EditorPresupuesto() {
           <div className="ventas-form">
             <p>{CONFIRMACION[confirmar].texto(eur(tot.total))}</p>
             <div className="ventas-acciones">
-              <button type="button" className="btn" disabled={ocupado} onClick={ejecutarConfirmacion}>{CONFIRMACION[confirmar].boton}</button>
+              <button type="button" className={confirmar === "eliminar" ? "btn peligro" : "btn"} disabled={ocupado} onClick={ejecutarConfirmacion}>{CONFIRMACION[confirmar].boton}</button>
               <button type="button" className="btn sec" onClick={() => setConfirmar(null)}>Cancelar</button>
             </div>
           </div>
