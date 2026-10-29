@@ -324,3 +324,6 @@
 .crm .btn .ico{margin-right:0}
 .crm button:has(> .ico){display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap}
 @media (forced-colors:active){.crm .ico{forced-color-adjust:auto}}
+
+/* Logo de la empresa en el menú lateral: sustituye public/logo-crm.svg (o .png) por el tuyo */
+.crm .marca-m img{display:block;width:100%;height:100%;object-fit:contain;border-radius:inherit}
