@@ -125,7 +125,7 @@ export default function CrmLayout({ children }: { children: ReactNode }) {
       <div className="crm" data-colapsado={colapsado}>
         <aside className="lateral">
           <div className="lateral-cab">
-            <a href="/" className="marca" title="Meridiano CRM"><span className="marca-m" aria-hidden>M</span><span className="lat-txt">Meridiano CRM</span></a>
+            <a href="/" className="marca" title="Meridiano CRM"><span className="marca-m" aria-hidden><img src="/logo-crm.jpg" alt="" width="32" height="32" /></span><span className="lat-txt">Meridiano CRM</span></a>
             <button type="button" className="lat-toggle" onClick={alternarMenu} aria-expanded={!colapsado}
               aria-label={colapsado ? "Expandir menú" : "Contraer menú"} title={colapsado ? "Expandir menú" : "Contraer menú"}>
               <IcoMenu />
