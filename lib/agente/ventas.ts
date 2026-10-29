@@ -44,7 +44,15 @@ type Clave = { accion: "presupuesto"; oportunidad_id: string } | { accion: "fact
 
 // Reserva la tarea. Devuelve el id de la fila de registro, o null si ya está hecha o en marcha.
 async function reservar(sb: SupabaseClient, clave: Clave, origen: Origen, modelo: string | null): Promise<string | null> {
-  const fila = { ...clave, resultado: "procesando", origen, modelo };
+  const fila: {
+    accion: "presupuesto" | "factura";
+    oportunidad_id?: string;
+    presupuesto_id?: string;
+    resultado: string;
+    origen: Origen;
+    modelo: string | null;
+  } = { ...clave, resultado: "procesando", origen, modelo };
+
   const { data, error } = await sb.from("agente_acciones").insert(fila).select("id").single();
   if (!error) return data.id as string;
   if (error.code !== "23505") throw new Error(`No se pudo registrar la acción: ${error.message}`);
