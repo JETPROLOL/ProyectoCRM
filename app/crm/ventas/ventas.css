@@ -143,3 +143,6 @@
 
 /* Botón de presupuesto dentro de la tarjeta de oportunidad (el estilo base está en crm.css) */
 .ficha .btn.peq.sec{width:100%}
+
+/* Agente de IA en oportunidades */
+.ficha-acciones { display: flex; gap: 8px; flex-wrap: wrap; }

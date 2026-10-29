@@ -24,6 +24,8 @@ export default function Oportunidades() {
   const [empresas, setEmpresas] = useState<Empresa[]>([]);
   const [elegir, setElegir] = useState<Oportunidad | null>(null);   // oportunidad sin empresa: hay que elegir cliente
   const [errorPresu, setErrorPresu] = useState("");
+  const [preparando, setPreparando] = useState<string | null>(null);   // id de la oportunidad que el agente está preparando
+  const [avisoAgente, setAvisoAgente] = useState("");
 
   const cargar = useCallback(async () => {
     const [o, e] = await Promise.all([
@@ -66,6 +68,28 @@ export default function Oportunidades() {
   function pedirPresupuesto(o: Oportunidad) {
     if (o.empresa_id) crearPresupuesto(o, o.empresa_id);
     else { setErrorPresu(""); setElegir(o); }
+  }
+
+  // El agente de IA lee la solicitud y prepara un BORRADOR de presupuesto (nunca lo envía: lo revisa una persona)
+  async function prepararConIA(o: Oportunidad) {
+    setErrorPresu(""); setAvisoAgente(""); setPreparando(o.id);
+    try {
+      const { data: sesion } = await supabase.auth.getSession();
+      const r = await fetch("/api/agente/ventas", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${sesion.session?.access_token ?? ""}` },
+        body: JSON.stringify({ accion: "presupuesto", id: o.id }),
+      });
+      const res = await r.json().catch(() => ({}));
+      if (!r.ok) return setErrorPresu(res.detalle ?? res.error ?? "El agente no pudo completar la tarea");
+      if (res.resultado === "creado" && res.presupuesto_id) return router.push(`/crm/ventas/presupuestos/${res.presupuesto_id}`);
+      setAvisoAgente(`${o.nombre}: ${res.detalle ?? "El agente necesita que una persona lo revise"}`);
+      cargarVentas();
+    } catch {
+      setErrorPresu("No se pudo contactar con el agente");
+    } finally {
+      setPreparando(null);
+    }
   }
 
   async function actualizar(id: string, cambios: Partial<Oportunidad>) {
@@ -143,8 +167,13 @@ export default function Oportunidades() {
                         ? <Link href={`/crm/ventas/presupuestos/${vivos[0].id}`} className="ficha-presu">
                             Presupuesto {vivos[0].numero}{vivos.length > 1 ? ` y ${vivos.length - 1} más` : ""}
                           </Link>
-                        : <button type="button" className="btn peq sec" aria-label={`Crear presupuesto para ${o.nombre}`}
-                            onClick={() => pedirPresupuesto(o)}>Crear presupuesto</button>;
+                        : <div className="ficha-acciones">
+                            <button type="button" className="btn peq sec" aria-label={`Crear presupuesto para ${o.nombre}`}
+                              onClick={() => pedirPresupuesto(o)}>Crear presupuesto</button>
+                            <button type="button" className="btn peq" disabled={preparando !== null}
+                              aria-label={`Preparar con IA un borrador de presupuesto para ${o.nombre}`}
+                              onClick={() => prepararConIA(o)}>{preparando === o.id ? "Preparando…" : "Preparar con IA"}</button>
+                          </div>;
                     })()}
                   </article>
                 );
@@ -156,6 +185,7 @@ export default function Oportunidades() {
       </div>
 
       {errorPresu && !elegir && <p className="aviso" role="alert" data-tipo="error">{errorPresu}</p>}
+      {avisoAgente && <p className="aviso" role="status">{avisoAgente}</p>}
 
       <Modal abierto={elegir !== null} titulo="Crear presupuesto" onCerrar={() => setElegir(null)}>
         {elegir && (
