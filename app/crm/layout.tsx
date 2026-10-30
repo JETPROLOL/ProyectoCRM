@@ -7,6 +7,7 @@ import { supabase } from "@/lib/supabase";
 import { Perfil, SIN_PERFIL } from "@/lib/rrhh/base";
 import { PerfilProvider } from "./PerfilContext";
 import { SECCIONES_RRHH } from "./rrhh/secciones";
+import { SECCIONES_VENTAS } from "./ventas/secciones";
 import Icono from "./Icono";
 import "./crm.css";
 
@@ -24,12 +25,15 @@ const IcoFlecha = () => <Ico><path d="M6 9l6 6 6-6" /></Ico>;
 const IcoMenu = () => <Ico><rect x="3" y="4" width="18" height="16" rx="2" /><path d="M9 4v16" /></Ico>;
 const IcoSalir = () => <Ico><path d="M9 21H5.5A1.5 1.5 0 0 1 4 19.5v-15A1.5 1.5 0 0 1 5.5 3H9" /><path d="M16 17l5-5-5-5" /><path d="M21 12H9" /></Ico>;
 
-const SECCIONES = [
+type Hijo = { href: string; nombre: string; soloRrhh?: boolean };
+type Seccion = { href: string; nombre: string; icono: ReactNode; soloVentas?: boolean; hijos?: readonly Hijo[] };
+
+const SECCIONES: Seccion[] = [
   { href: "/crm/resumen", nombre: "Resumen", icono: <IcoResumen /> },
   { href: "/crm", nombre: "Oportunidades", icono: <IcoOportunidades /> },
   { href: "/crm/empleados", nombre: "Empleados", icono: <IcoEmpleados /> },
   { href: "/crm/empresas", nombre: "Empresas", icono: <IcoEmpresas /> },
-  { href: "/crm/ventas", nombre: "Ventas", icono: <IcoVentas />, soloVentas: true },
+  { href: "/crm/ventas", nombre: "Ventas", icono: <IcoVentas />, soloVentas: true, hijos: SECCIONES_VENTAS },
   { href: "/crm/rrhh", nombre: "RRHH", icono: <IcoRrhh />, hijos: SECCIONES_RRHH },
 ];
 
@@ -67,7 +71,8 @@ export default function CrmLayout({ children }: { children: ReactNode }) {
   const ruta = usePathname() ?? "";
   const uid = session?.user.id;
   const [colapsado, setColapsado] = useState(false);
-  const [rrhhAbierto, setRrhhAbierto] = useState(false);
+  // Desplegables abiertos del menú, por ruta base (p. ej. "/crm/rrhh", "/crm/ventas")
+  const [abiertos, setAbiertos] = useState<Record<string, boolean>>({});
 
   // Preferencia del menú: se recuerda; en pantallas pequeñas arranca contraído y se cierra al navegar
   useEffect(() => {
@@ -80,17 +85,19 @@ export default function CrmLayout({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (window.matchMedia("(max-width:860px)").matches) setColapsado(true);
   }, [ruta]);
-  // Al entrar en cualquier apartado de RRHH, el desplegable se abre solo
+  // Al entrar en cualquier apartado de RRHH o Ventas, su desplegable se abre solo
   useEffect(() => {
-    if (ruta.startsWith("/crm/rrhh")) setRrhhAbierto(true);
+    for (const s of SECCIONES) {
+      if (s.hijos && activa(ruta, s.href)) setAbiertos((a) => (a[s.href] ? a : { ...a, [s.href]: true }));
+    }
   }, [ruta]);
-  function alternarRrhh() {
+  function alternarGrupo(href: string) {
     // Con el menú contraído (solo iconos) no cabe el desplegable: se expande el menú y se abre
     if (colapsado) {
       setColapsado(false);
-      setRrhhAbierto(true);
+      setAbiertos((a) => ({ ...a, [href]: true }));
       try { localStorage.setItem("crm-menu", "0"); } catch { /* ignorar */ }
-    } else setRrhhAbierto((v) => !v);
+    } else setAbiertos((a) => ({ ...a, [href]: !a[href] }));
   }
   function alternarMenu() {
     const nuevo = !colapsado;
@@ -143,13 +150,13 @@ export default function CrmLayout({ children }: { children: ReactNode }) {
               }
               // Sección con apartados: desplegable dentro del propio menú
               const dentro = activa(ruta, s.href);
-              const abierto = rrhhAbierto && !colapsado;
-              const idSub = "submenu-rrhh";
+              const abierto = !!abiertos[s.href] && !colapsado;
+              const idSub = "submenu-" + s.href.split("/").pop();
               return (
                 <div key={s.href} className="lat-grupo" data-abierto={abierto} data-dentro={dentro}>
                   <button type="button" className="lat-grupo-btn" data-tip={s.nombre} aria-expanded={abierto} aria-controls={idSub}
                     aria-label={colapsado ? `${s.nombre}: expandir el menú y mostrar sus apartados` : undefined}
-                    data-activo={dentro && !abierto} onClick={alternarRrhh}>
+                    data-activo={dentro && !abierto} onClick={() => alternarGrupo(s.href)}>
                     <span className="lat-ico">{s.icono}</span><span className="lat-txt">{s.nombre}</span>
                     <span className="lat-flecha lat-txt" aria-hidden="true"><IcoFlecha /></span>
                   </button>
