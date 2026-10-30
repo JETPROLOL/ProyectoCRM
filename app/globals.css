@@ -13,6 +13,7 @@ a{color:inherit}
 .btn.peq{padding:8px 16px;font-size:.95rem}
 .marca{display:flex;align-items:center;gap:10px;font:700 1.35rem var(--f-head),sans-serif;text-decoration:none;color:#fff}
 .marca-m{display:grid;place-items:center;width:30px;height:30px;background:var(--yellow);color:var(--ink);border-radius:3px}
+.marca-img{display:block;height:32px;width:auto;max-width:160px;object-fit:contain}
 
 /* Web */
 .nav{position:sticky;top:0;z-index:5;background:var(--ink);color:#fff}

@@ -1,4 +1,5 @@
 import ContactForm from "./ContactForm";
+import LogoMarca from "./LogoMarca";
 import TrabajaConNosotros from "./TrabajaConNosotros";
 
 const servicios = [
@@ -20,7 +21,7 @@ export default function Home() {
     <>
       <header className="nav">
         <div className="wrap nav-in">
-          <a href="#" className="marca"><span className="marca-m" aria-hidden>M</span>Meridiano Logística</a>
+          <a href="#" className="marca"><LogoMarca />Meridiano Logística</a>
           <nav aria-label="Principal">
             <a href="#servicios">Servicios</a>
             <a href="#proceso">Cómo trabajamos</a>
