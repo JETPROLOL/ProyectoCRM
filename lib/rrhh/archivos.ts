@@ -1,6 +1,6 @@
 import { supabase } from "@/lib/supabase";
 
-export type BucketPrivado = "cvs" | "nominas";
+export type BucketPrivado = "cvs" | "nominas" | "facturas-proveedor";
 
 // Las fotos están en un bucket público: se guarda la ruta en empleados.foto_path y se construye la URL
 export function urlFoto(path: string | null | undefined) {
@@ -9,8 +9,9 @@ export function urlFoto(path: string | null | undefined) {
 }
 
 // Los CVs y nóminas son privados: se descargan con un enlace temporal (5 min por defecto)
-export async function urlFirmada(bucket: BucketPrivado, path: string, segundos = 300) {
-  const { data, error } = await supabase.storage.from(bucket).createSignedUrl(path, segundos);
+// Con "descargarComo" el enlace fuerza la descarga con ese nombre de archivo en lugar de abrirlo en el navegador
+export async function urlFirmada(bucket: BucketPrivado, path: string, segundos = 300, descargarComo?: string) {
+  const { data, error } = await supabase.storage.from(bucket).createSignedUrl(path, segundos, descargarComo ? { download: descargarComo } : undefined);
   return error ? null : data.signedUrl;
 }
 

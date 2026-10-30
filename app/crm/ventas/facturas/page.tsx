@@ -8,6 +8,7 @@ import {
   DatosEmisor, ETIQUETA_FACTURA, EstadoVisible, Factura, cartera, estadoVisible, faltaEmisor, pendiente,
 } from "@/lib/ventas/facturas";
 import { fechaCorta, hoyISO, mensajeError } from "@/lib/ventas/presupuestos";
+import type { LineaFactura } from "@/lib/ventas/pdfFactura";
 import Modal from "../../Modal";
 import { usePerfil } from "../../PerfilContext";
 import EstadoFactura from "../EstadoFactura";
@@ -33,6 +34,7 @@ export default function Facturas() {
   const [verEmisor, setVerEmisor] = useState(false);
   const [error, setError] = useState("");
   const [aviso, setAviso] = useState("");
+  const [descargando, setDescargando] = useState<string | null>(null);   // id de la factura cuyo PDF se está generando
   const hoy = hoyISO();
 
   const cargar = useCallback(async () => {
@@ -74,6 +76,22 @@ export default function Facturas() {
     const { data, error } = await supabase.rpc("crear_factura_desde_presupuesto", { p_presupuesto_id: presupuestoId });
     if (error) return setError(mensajeError(error));
     router.push(`/crm/ventas/facturas/${data as string}`);
+  }
+
+  // PDF de una factura emitida: se genera en el navegador con sus líneas y los datos fiscales copiados al emitirla
+  async function descargarPdf(f: Fila) {
+    setError(""); setAviso(""); setDescargando(f.id);
+    const { data, error } = await supabase.from("lineas_factura").select("descripcion,cantidad,unidad,precio_unitario,descuento_pct,tipo_iva")
+      .eq("factura_id", f.id).order("orden");
+    if (error) { setDescargando(null); return setError(`No se pudo preparar el PDF. ${error.message}`); }
+    try {
+      const { descargarPdfFactura } = await import("@/lib/ventas/pdfFactura");
+      const original = f.rectifica_id ? filas.find((x) => x.id === f.rectifica_id)?.numero ?? null : null;
+      await descargarPdfFactura(f, (data as LineaFactura[]) ?? [], original);
+    } catch (e) {
+      setError(`No se pudo generar el PDF. ${e instanceof Error ? e.message : ""}`);
+    }
+    setDescargando(null);
   }
 
   async function guardarEmisor(e: FormEvent<HTMLFormElement>) {
@@ -155,6 +173,7 @@ export default function Facturas() {
                 <th scope="col">Número</th><th scope="col">Cliente</th><th scope="col">Emisión</th>
                 <th scope="col">Vencimiento</th><th scope="col">Estado</th>
                 <th scope="col" className="num">Total</th><th scope="col" className="num">Pendiente</th>
+                <th scope="col"><span className="ventas-solo-lectores">Descargar</span>PDF</th>
               </tr>
             </thead>
             <tbody>
@@ -167,6 +186,14 @@ export default function Facturas() {
                   <td><EstadoFactura estado={estadoVisible(f, hoy)} /></td>
                   <td className="num">{eur(f.total)}</td>
                   <td className="num">{pendiente(f) > 0 ? eur(pendiente(f)) : "—"}</td>
+                  <td className="acciones-pdf">
+                    {f.estado === "borrador" ? "—" : (
+                      <button type="button" className="btn sec peq" disabled={descargando === f.id} onClick={() => descargarPdf(f)}
+                        aria-label={`Descargar PDF de la factura ${f.numero}`}>
+                        <Icono nombre="download" />{descargando === f.id ? "Generando…" : "PDF"}
+                      </button>
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>
