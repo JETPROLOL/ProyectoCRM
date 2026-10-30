@@ -143,3 +143,12 @@
 
 /* Botón de presupuesto dentro de la tarjeta de oportunidad (el estilo base está en crm.css) */
 .ficha .btn.peq.sec{width:100%}
+
+/* Facturas: botón de descargar PDF por fila y facturas a pagar */
+.ventas-tabla td.acciones-pdf{white-space:nowrap;text-align:right}
+.ventas-tabla td.acciones-pdf .btn{margin:0}
+.ventas-tabla .ventas-botones{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.ventas-tabla .ventas-botones .btn{margin:0}
+.ventas-aviso-dup{display:block;margin-top:4px;color:var(--st-warn-fg);font-size:.8125rem;font-weight:500}
+.ventas-motivo{display:block;margin-top:4px;color:var(--muted);font-size:.8125rem;max-width:280px}
+.ventas-subida ul{margin:0;padding-left:24px}
