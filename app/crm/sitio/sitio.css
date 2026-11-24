@@ -1,0 +1,122 @@
+/* Módulo Sitio web (galería de plantillas y editor). Todas las clases llevan el prefijo .sitio-
+   Usa los colores y espaciados de crm.css. Las plantillas en sí (lo que se dibuja dentro de la vista previa) están en plantillas.css. */
+.crm .sitio-solo-lectores { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---------- Galería ---------- */
+.crm .sitio-intro { color: var(--text2); max-width: 70ch; margin: 0 0 24px; }
+.crm .sitio-galeria { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 24px; list-style: none; margin: 0 0 40px; padding: 0; }
+.crm .sitio-plantilla { display: flex; flex-direction: column; gap: 16px; background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 16px; box-shadow: 0 1px 2px rgba(0, 0, 0, .04); }
+.crm .sitio-plantilla h2 { font-size: 1.25rem; margin: 0; }
+.crm .sitio-plantilla p { margin: 0; color: var(--text2); }
+.crm .sitio-mini { position: relative; aspect-ratio: 16 / 11; overflow: hidden; border: 1px solid var(--line); border-radius: 8px; background: var(--steel); }
+.crm .sitio-mini-in { transform-origin: top left; pointer-events: none; }
+.crm .sitio-etiquetas { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 0; padding: 0; }
+.crm .sitio-etiquetas li { background: var(--steel); border: 1px solid var(--line); color: var(--st-neu-fg); border-radius: 999px; padding: 2px 12px; font-size: .8125rem; font-weight: 500; }
+.crm .sitio-plantilla .btn { margin-top: auto; align-self: flex-start; }
+.crm .sitio-subtitulo { font-size: 1.25rem; margin: 0 0 16px; }
+.crm .sitio-acciones { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; margin: 0; }
+.crm .sitio-acciones .btn { min-height: 40px; padding: 0 16px; font-size: .875rem; }
+
+/* ---------- Editor: barra superior ---------- */
+.crm .sitio-barra { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 16px; margin-bottom: 16px; }
+.crm .sitio-barra .sitio-nombre { flex: 1 1 240px; max-width: 420px; }
+.crm .sitio-barra-grupo { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.crm .sitio-estado { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; font-size: .875rem; font-weight: 500; color: var(--text2); }
+.crm .sitio-estado::before { content: ""; width: 14px; height: 14px; background: currentColor; -webkit-mask: var(--ico-check) center / contain no-repeat; mask: var(--ico-check) center / contain no-repeat; }
+.crm .sitio-estado[data-sucio=true] { color: var(--st-warn-fg); }
+.crm .sitio-estado[data-sucio=true]::before { -webkit-mask-image: var(--ico-pen); mask-image: var(--ico-pen); }
+
+/* Selector de tamaño de pantalla (botones de radio con aspecto de segmentos) */
+.crm .sitio-seg { display: inline-flex; border: 1px solid var(--control); border-radius: 8px; padding: 0; margin: 0; min-width: 0; overflow: hidden; background: #fff; }
+.crm .sitio-seg legend { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.crm .sitio-seg label { position: relative; display: inline-flex; flex-direction: row; align-items: center; gap: 8px; min-height: 40px; padding: 0 14px; margin: 0; cursor: pointer; font-weight: 500; font-size: .875rem; color: var(--ink); }
+.crm .sitio-seg label + label { border-left: 1px solid var(--line); }
+.crm .sitio-seg input { position: absolute; opacity: 0; inset: 0; width: 100%; height: 100%; min-height: 0; margin: 0; cursor: pointer; }
+.crm .sitio-seg label:has(input:checked) { background: var(--ink); color: #fff; }
+.crm .sitio-seg label:has(input:focus-visible) { outline: 3px solid var(--ink); outline-offset: -3px; box-shadow: inset 0 0 0 5px #fff; }
+.crm .sitio-seg label:not(:has(input:checked)):hover { background: var(--steel); }
+
+/* ---------- Editor: panel + lienzo ---------- */
+.crm .sitio-editor { display: grid; grid-template-columns: 380px minmax(0, 1fr); gap: 24px; align-items: start; }
+.crm .sitio-panel { background: #fff; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; max-height: calc(100vh - 200px); min-height: 480px; }
+.crm .sitio-tabs { display: flex; border-bottom: 1px solid var(--line); flex: none; }
+.crm .sitio-tabs button { flex: 1; min-height: 48px; background: #fff; border: 0; border-bottom: 3px solid transparent; font: 500 .9375rem var(--f-body), sans-serif; color: var(--text2); cursor: pointer; }
+.crm .sitio-tabs button[aria-selected=true] { color: var(--ink); font-weight: 600; border-bottom-color: var(--ink); }
+.crm .sitio-tabs button:hover { background: var(--paper); }
+.crm .sitio-cuerpo { padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; flex: 1; }
+.crm .sitio-cuerpo h2 { font-size: 1.125rem; margin: 0; }
+.crm .sitio-cuerpo p { margin: 0; }
+.crm .sitio-ayuda { color: var(--muted); font-size: .8125rem; }
+.crm .sitio-volver { align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 12px 0 8px; background: none; border: 0; color: var(--ink); font: 500 .9375rem var(--f-body), sans-serif; cursor: pointer; border-radius: 8px; }
+.crm .sitio-volver:hover { background: var(--steel); }
+
+/* Lista de secciones */
+.crm .sitio-lista { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.crm .sitio-lista li { display: flex; align-items: center; gap: 4px; border: 1px solid var(--line); border-radius: 8px; padding: 4px; background: #fff; }
+.crm .sitio-lista li[data-sel=true] { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+.crm .sitio-lista li[data-oculta=true] { background: var(--paper); border-style: dashed; }
+.crm .sitio-lista-nombre { flex: 1; min-width: 0; min-height: 44px; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 0; padding: 0 8px; background: none; border: 0; border-radius: 6px; text-align: left; cursor: pointer; font: 600 .9375rem var(--f-body), sans-serif; color: var(--ink); }
+.crm .sitio-lista-nombre:hover { background: var(--steel); }
+.crm .sitio-lista-nombre small { font-weight: 400; color: var(--muted); font-size: .8125rem; }
+.crm .sitio-lista-acc { display: flex; flex: none; }
+.crm .sitio-icono-btn { display: inline-grid; place-items: center; width: 40px; height: 40px; margin: 0; padding: 0; background: #fff; color: var(--ink); border: 1px solid transparent; border-radius: 8px; cursor: pointer; }
+.crm .sitio-icono-btn:hover:not(:disabled) { background: var(--steel); border-color: var(--control); }
+.crm .sitio-icono-btn:disabled { color: #a3a3a3; cursor: not-allowed; }
+.crm .sitio-icono-btn.peligro { color: var(--danger); }
+.crm .sitio-icono-btn.peligro:hover:not(:disabled) { background: var(--st-bad-bg); border-color: var(--st-bad-bd); }
+.crm .sitio-icono-btn svg { width: 18px; height: 18px; }
+.crm .sitio-anadir { display: flex; flex-wrap: wrap; gap: 8px; align-items: flex-end; padding-top: 16px; border-top: 1px solid var(--line); }
+.crm .sitio-anadir label { flex: 1 1 160px; }
+
+/* Campos del editor de sección */
+.crm .sitio-campos { display: flex; flex-direction: column; gap: 16px; }
+.crm .sitio-campos fieldset { border: 1px solid var(--line); border-radius: 8px; padding: 12px; margin: 0; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
+.crm .sitio-campos legend { font-weight: 600; font-size: .875rem; padding: 0 4px; }
+.crm .sitio-item { background: var(--paper); }
+.crm .sitio-item-cab { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.crm .sitio-item-cab span { font-weight: 600; font-size: .875rem; }
+.crm .sitio-img-vista { max-width: 100%; max-height: 120px; object-fit: contain; border: 1px solid var(--line); border-radius: 8px; background: var(--steel); align-self: flex-start; }
+.crm .sitio-fila { display: flex; flex-wrap: wrap; gap: 8px; }
+.crm .sitio-fila .btn { min-height: 40px; padding: 0 16px; font-size: .875rem; }
+.crm .sitio-archivo { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.crm .sitio-campos .btn:has(+ .sitio-archivo:focus-visible), .crm .sitio-archivo:focus-visible + .btn { outline: 3px solid var(--ink); outline-offset: 2px; }
+
+/* Diseño */
+.crm .sitio-opciones { display: grid; gap: 8px; }
+.crm .sitio-opcion { display: flex; flex-direction: row; align-items: flex-start; gap: 12px; padding: 12px; border: 1px solid var(--line); border-radius: 8px; cursor: pointer; font-weight: 500; }
+.crm .sitio-opcion:has(input:checked) { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); background: var(--paper); }
+.crm .sitio-opcion:has(input:focus-visible) { outline: 3px solid var(--ink); outline-offset: 2px; }
+.crm .sitio-opcion small { display: block; font-weight: 400; color: var(--muted); }
+.crm .sitio-opcion input { margin-top: 2px; }
+.crm .sitio-color { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.crm .sitio-color input[type=color] { width: 56px; padding: 4px; cursor: pointer; }
+.crm .sitio-color input[type=text] { width: 120px; font-variant-numeric: tabular-nums; }
+.crm label.sitio-en-linea { display: flex; flex-direction: row; align-items: center; gap: 8px; }
+.crm .sitio-muestras { display: flex; flex-wrap: wrap; gap: 8px; }
+.crm .sitio-muestra { width: 40px; height: 40px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 0 1px var(--control); cursor: pointer; padding: 0; display: grid; place-items: center; color: #fff; font-size: 1rem; line-height: 1; }
+.crm .sitio-muestra[aria-pressed=true] { box-shadow: 0 0 0 3px var(--ink); }
+.crm .sitio-muestra[aria-pressed=true]::after { content: "✓"; content: "✓" / ""; mix-blend-mode: difference; }
+.crm .sitio-contraste { display: flex; align-items: flex-start; gap: 8px; font-size: .8125rem; color: var(--st-good-fg); background: var(--st-good-bg); border: 1px solid var(--st-good-bd); border-radius: 8px; padding: 8px 12px; }
+
+/* Lienzo con la vista previa */
+.crm .sitio-lienzo { height: calc(100vh - 200px); min-height: 480px; overflow: auto; background: #dfe3e8; border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
+.crm .sitio-lienzo:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+.crm .sitio-marco { margin: 0 auto; width: 100%; max-width: 100%; background: #fff; box-shadow: 0 8px 32px rgba(0, 0, 0, .18); transition: width .2s; }
+.crm .sitio-marco[data-dispositivo=tableta] { width: 820px; }
+.crm .sitio-marco[data-dispositivo=movil] { width: 390px; }
+
+.crm .sitio-vista-barra { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+
+@media (max-width: 1100px) {
+  .crm .sitio-editor { grid-template-columns: 1fr; }
+  .crm .sitio-panel { max-height: none; min-height: 0; }
+  .crm .sitio-lienzo { height: 70vh; }
+}
+@media (max-width: 560px) {
+  .crm .sitio-seg label span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .crm .sitio-seg label { padding: 0 12px; }
+}
+@media (forced-colors: active) {
+  .crm .sitio-seg label:has(input:checked) { outline: 2px solid Highlight; }
+  .crm .sitio-lista li[data-sel=true], .crm .sitio-opcion:has(input:checked) { outline: 2px solid Highlight; }
+}

@@ -21,6 +21,7 @@ const IcoEmpleados = () => <Ico><circle cx="9" cy="8" r="3.5" /><path d="M2.5 20
 const IcoEmpresas = () => <Ico><path d="M4 21V4.5A1.5 1.5 0 0 1 5.5 3h8A1.5 1.5 0 0 1 15 4.5V21" /><path d="M15 9h3.5A1.5 1.5 0 0 1 20 10.5V21" /><path d="M2 21h20" /><path d="M8 7.5h3M8 11.5h3M8 15.5h3" /></Ico>;
 const IcoRrhh = () => <Ico><rect x="3" y="7" width="18" height="13" rx="2" /><path d="M9 7V5.5A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5V7" /><path d="M3 13h18" /></Ico>;
 const IcoVentas = () => <Ico><path d="M4 20V10" /><path d="M10 20V4" /><path d="M16 20v-8" /><path d="M22 20H2" /></Ico>;
+const IcoSitio = () => <Ico><rect x="3" y="4" width="18" height="16" rx="2" /><path d="M3 9h18" /><path d="M8 13h8M8 16.5h5" /></Ico>;
 const IcoFlecha = () => <Ico><path d="M6 9l6 6 6-6" /></Ico>;
 const IcoMenu = () => <Ico><rect x="3" y="4" width="18" height="16" rx="2" /><path d="M9 4v16" /></Ico>;
 const IcoSalir = () => <Ico><path d="M9 21H5.5A1.5 1.5 0 0 1 4 19.5v-15A1.5 1.5 0 0 1 5.5 3H9" /><path d="M16 17l5-5-5-5" /><path d="M21 12H9" /></Ico>;
@@ -34,6 +35,7 @@ const SECCIONES: Seccion[] = [
   { href: "/crm/empleados", nombre: "Empleados", icono: <IcoEmpleados /> },
   { href: "/crm/empresas", nombre: "Empresas", icono: <IcoEmpresas /> },
   { href: "/crm/ventas", nombre: "Ventas", icono: <IcoVentas />, soloVentas: true, hijos: SECCIONES_VENTAS },
+  { href: "/crm/sitio", nombre: "Sitio web", icono: <IcoSitio />, soloVentas: true },
   { href: "/crm/rrhh", nombre: "RRHH", icono: <IcoRrhh />, hijos: SECCIONES_RRHH },
 ];
 
