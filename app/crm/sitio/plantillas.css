@@ -1,0 +1,175 @@
+/* Estilos de las 3 plantillas del módulo Sitio web (corporativa, moderna, minimalista).
+   Todo va bajo ".crm .sw" para no chocar con el CSS del CRM ni con globals.css.
+   Los colores salen de variables que pone SitioRender: --sw-acento, --sw-sobre (texto sobre el acento, blanco o casi negro)
+   y --sw-acento-txt (el acento ajustado para usarlo como texto con contraste ≥ 4,5 : 1).
+   El diseño es adaptable al ANCHO DEL PROPIO SITIO (container queries), no al de la ventana: así la vista de móvil
+   del editor se comporta igual que un móvil real. */
+
+.crm .sw { container: sw / inline-size; display: block; position: relative; --sw-bg: #ffffff; --sw-alt: #f3f5f8; --sw-tx: #14181f; --sw-mut: #4a5565; --sw-lin: #d9dee6; --sw-r: 8px; --sw-rb: 6px;
+  font-family: var(--sw-f); font-size: 16px; line-height: 1.6; color: var(--sw-tx); background: var(--sw-bg); text-align: left; }
+.crm .sw[data-modo=oscuro] { --sw-bg: #0d1117; --sw-alt: #161b22; --sw-tx: #f0f3f6; --sw-mut: #b4bcc8; --sw-lin: #2d333b; }
+.crm .sw *, .crm .sw *::before, .crm .sw *::after { box-sizing: border-box; }
+.crm .sw :is(h2, h3, h4, p, ul, ol, dl, dd, figure, blockquote) { margin: 0; padding: 0; }
+.crm .sw :is(h2, h3, h4) { font-family: inherit; color: inherit; letter-spacing: normal; text-transform: none; }
+.crm .sw p, .crm .sw li, .crm .sw dd, .crm .sw dt, .crm .sw figcaption { color: inherit; }
+.crm .sw ul { list-style: none; }
+.crm .sw img { display: block; max-width: 100%; height: auto; }
+.crm .sw a { color: var(--sw-acento-txt); text-underline-offset: 3px; }
+.crm .sw :focus-visible { outline: 3px solid var(--sw-acento-txt); outline-offset: 3px; }
+
+/* ---------- Estructura común ---------- */
+.crm .sw .sw-cont { max-width: 1120px; margin: 0 auto; padding: 0 clamp(16px, 4cqi, 32px); }
+.crm .sw .sw-sec { padding: clamp(48px, 9cqi, 96px) 0; background: var(--sw-bg); }
+.crm .sw .sw-vacio { padding: 64px 24px; text-align: center; color: var(--sw-mut); }
+.crm .sw .sw-titular { margin-bottom: clamp(24px, 4cqi, 48px); max-width: 62ch; }
+.crm .sw .sw-titular h3, .crm .sw .sw-sobre h3, .crm .sw .sw-cta h3 { font-size: clamp(1.625rem, 3.6cqi, 2.375rem); line-height: 1.15; font-weight: 700; }
+.crm .sw .sw-titular p { margin-top: 12px; color: var(--sw-mut); font-size: 1.125rem; }
+
+/* Cabecera */
+.crm .sw .sw-cab { position: sticky; top: 0; z-index: 3; background: var(--sw-bg); border-bottom: 1px solid var(--sw-lin); }
+.crm .sw .sw-cab-in { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 24px; padding-top: 8px; padding-bottom: 8px; min-height: 64px; }
+.crm .sw .sw-marca { display: inline-flex; align-items: center; gap: 12px; font-weight: 700; font-size: 1.125rem; }
+.crm .sw .sw-marca img { height: 36px; width: auto; max-width: 160px; object-fit: contain; }
+.crm .sw .sw-monograma { width: 36px; height: 36px; display: grid; place-items: center; background: var(--sw-acento); color: var(--sw-sobre); border-radius: var(--sw-rb); font-weight: 700; flex: none; }
+.crm .sw nav ul { display: flex; flex-wrap: wrap; gap: 0 4px; }
+.crm .sw nav a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; color: var(--sw-tx); font-weight: 500; text-decoration: none; border-radius: var(--sw-rb); }
+.crm .sw nav a:hover { color: var(--sw-acento-txt); text-decoration: underline; }
+
+/* Botones */
+.crm .sw .sw-boton { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; margin-top: 24px; padding: 0 28px; border-radius: var(--sw-rb); border: 2px solid var(--sw-acento);
+  background: var(--sw-acento); color: var(--sw-sobre); font: 600 1rem/1.2 var(--sw-f); text-decoration: none; text-align: center; }
+.crm .sw .sw-boton:hover { box-shadow: 0 0 0 4px color-mix(in srgb, var(--sw-acento) 30%, transparent); }
+
+/* Portada */
+.crm .sw .sw-hero { background: var(--sw-alt); }
+.crm .sw .sw-hero-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: clamp(24px, 6cqi, 64px); align-items: center; }
+.crm .sw .sw-etiqueta { margin-bottom: 16px; color: var(--sw-acento-txt); font-weight: 700; font-size: .8125rem; letter-spacing: .08em; text-transform: uppercase; }
+.crm .sw .sw-hero h2 { font-size: clamp(2rem, 5.4cqi, 3.5rem); line-height: 1.08; font-weight: 700; }
+.crm .sw .sw-lead { margin-top: 20px; max-width: 54ch; color: var(--sw-mut); font-size: clamp(1.0625rem, 1.8cqi, 1.25rem); }
+.crm .sw .sw-hero-media img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: calc(var(--sw-r) * 1.5); }
+.crm .sw .sw-arte { width: 100%; height: auto; color: var(--sw-acento-txt); }
+.crm .sw .sw-arte-fondo { fill: var(--sw-bg); stroke: var(--sw-lin); }
+.crm .sw .sw-arte-caja rect { fill: var(--sw-acento); }
+.crm .sw .sw-arte-caja path { stroke: var(--sw-sobre); }
+
+/* Servicios y tarjetas */
+.crm .sw .sw-rejilla { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: 24px; }
+.crm .sw .sw-tarjeta { background: var(--sw-bg); border: 1px solid var(--sw-lin); border-radius: var(--sw-r); padding: 24px; }
+.crm .sw .sw-servicios .sw-tarjeta { border-top: 4px solid var(--sw-acento); }
+.crm .sw .sw-tarjeta h4 { font-size: 1.1875rem; line-height: 1.3; font-weight: 700; margin-bottom: 8px; }
+.crm .sw .sw-tarjeta p { color: var(--sw-mut); }
+.crm .sw .sw-num { display: none; }
+
+/* Sobre nosotros */
+.crm .sw .sw-sobre { background: var(--sw-alt); }
+.crm .sw .sw-sobre-grid { display: grid; gap: clamp(24px, 6cqi, 64px); align-items: center; }
+.crm .sw .sw-sobre[data-imagen=si] .sw-sobre-grid { grid-template-columns: 1fr 1fr; }
+.crm .sw .sw-sobre-texto { max-width: 68ch; }
+.crm .sw .sw-sobre-texto h3 { margin-bottom: 20px; }
+.crm .sw .sw-sobre-texto p { margin-bottom: 16px; color: var(--sw-mut); font-size: 1.0625rem; }
+.crm .sw .sw-puntos { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px 24px; margin-top: 24px; }
+.crm .sw .sw-puntos li { display: flex; gap: 12px; align-items: flex-start; font-weight: 600; }
+.crm .sw .sw-puntos li::before { content: "✓"; content: "✓" / ""; flex: none; width: 24px; height: 24px; display: grid; place-items: center; border-radius: 50%; background: var(--sw-acento); color: var(--sw-sobre); font-size: .8125rem; margin-top: 1px; }
+.crm .sw .sw-sobre-media img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: calc(var(--sw-r) * 1.5); }
+
+/* Cifras */
+.crm .sw .sw-cifras { padding: clamp(32px, 6cqi, 56px) 0; background: var(--sw-acento); color: var(--sw-sobre); }
+.crm .sw .sw-cifras-lista { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 24px; text-align: center; }
+.crm .sw .sw-cifras-lista strong { display: block; font-size: clamp(2rem, 5cqi, 3rem); line-height: 1.1; font-weight: 700; }
+.crm .sw .sw-cifras-lista span { display: block; margin-top: 4px; font-size: 1rem; }
+
+/* Opiniones */
+.crm .sw .sw-testimonios { background: var(--sw-alt); }
+.crm .sw .sw-testimonios .sw-tarjeta { display: flex; flex-direction: column; gap: 16px; }
+.crm .sw .sw-testimonios blockquote p { color: var(--sw-tx); font-size: 1.0625rem; }
+.crm .sw .sw-testimonios blockquote p::before { content: "“" / ""; } .crm .sw .sw-testimonios blockquote p::after { content: "”" / ""; }
+.crm .sw .sw-testimonios figcaption { margin-top: auto; }
+.crm .sw .sw-testimonios figcaption strong { display: block; }
+.crm .sw .sw-testimonios figcaption span { color: var(--sw-mut); font-size: .9375rem; }
+
+/* Llamada a la acción */
+.crm .sw .sw-cta { background: var(--sw-acento); color: var(--sw-sobre); padding: clamp(40px, 7cqi, 72px) 0; }
+.crm .sw .sw-cta-in { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px 48px; }
+.crm .sw .sw-cta p { margin-top: 8px; max-width: 56ch; font-size: 1.0625rem; }
+.crm .sw .sw-cta .sw-boton { margin-top: 0; background: var(--sw-sobre); color: var(--sw-acento); border-color: var(--sw-sobre); }
+.crm .sw .sw-cta .sw-boton:hover { box-shadow: 0 0 0 4px color-mix(in srgb, var(--sw-sobre) 35%, transparent); }
+.crm .sw .sw-cta :focus-visible { outline-color: var(--sw-sobre); }
+
+/* Contacto */
+.crm .sw .sw-datos { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 16px; }
+.crm .sw .sw-datos .sw-tarjeta { background: var(--sw-alt); }
+.crm .sw .sw-datos dt { color: var(--sw-mut); font-size: .8125rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 4px; }
+.crm .sw .sw-datos dd { font-size: 1.0625rem; font-weight: 500; overflow-wrap: anywhere; }
+
+/* Pie */
+.crm .sw .sw-pie { background: var(--sw-alt); border-top: 1px solid var(--sw-lin); padding: 32px 0; color: var(--sw-mut); font-size: .9375rem; }
+.crm .sw .sw-pie-in { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; }
+.crm .sw .sw-pie strong { display: block; color: var(--sw-tx); }
+
+/* ========== MODERNA: oscura, centrada, esquinas redondas y botones en píldora ========== */
+.crm .sw[data-plantilla=moderna] { --sw-r: 18px; --sw-rb: 999px; }
+.crm .sw[data-plantilla=moderna] .sw-cab { background: color-mix(in srgb, var(--sw-bg) 88%, transparent); backdrop-filter: blur(10px); }
+.crm .sw[data-plantilla=moderna] .sw-hero { background: radial-gradient(70% 80% at 50% 0%, color-mix(in srgb, var(--sw-acento) 26%, transparent), transparent 70%), var(--sw-bg); padding-bottom: clamp(40px, 8cqi, 88px); }
+.crm .sw[data-plantilla=moderna] .sw-hero-grid { grid-template-columns: 1fr; text-align: center; justify-items: center; }
+.crm .sw[data-plantilla=moderna] .sw-hero h2 { font-size: clamp(2.125rem, 6.4cqi, 4.25rem); font-weight: 800; max-width: 20ch; margin: 0 auto; letter-spacing: -.02em; }
+.crm .sw[data-plantilla=moderna] .sw-lead { margin-left: auto; margin-right: auto; }
+.crm .sw[data-plantilla=moderna] .sw-etiqueta { display: inline-block; padding: 6px 16px; border: 1px solid color-mix(in srgb, var(--sw-acento-txt) 55%, transparent); border-radius: 999px; letter-spacing: .04em; text-transform: none; font-size: .875rem; }
+.crm .sw[data-plantilla=moderna] .sw-hero-media { width: min(100%, 520px); margin-top: 16px; }
+.crm .sw[data-plantilla=moderna] .sw-servicios .sw-tarjeta { background: var(--sw-alt); border-top-width: 1px; }
+.crm .sw[data-plantilla=moderna] .sw-num { display: block; margin-bottom: 16px; color: var(--sw-acento-txt); font-weight: 700; font-size: .875rem; letter-spacing: .1em; }
+.crm .sw[data-plantilla=moderna] .sw-cifras { background: var(--sw-bg); color: var(--sw-tx); border-block: 1px solid var(--sw-lin); }
+.crm .sw[data-plantilla=moderna] .sw-cifras-lista strong { color: var(--sw-acento-txt); }
+.crm .sw[data-plantilla=moderna] .sw-sobre, .crm .sw[data-plantilla=moderna] .sw-testimonios { background: var(--sw-bg); }
+.crm .sw[data-plantilla=moderna] .sw-testimonios .sw-tarjeta, .crm .sw[data-plantilla=moderna] .sw-datos .sw-tarjeta { background: var(--sw-alt); }
+.crm .sw[data-plantilla=moderna] .sw-cta { background: var(--sw-bg); padding: clamp(24px, 5cqi, 56px) 0; }
+.crm .sw[data-plantilla=moderna] .sw-cta-in { background: var(--sw-acento); color: var(--sw-sobre); border-radius: calc(var(--sw-r) * 1.6); padding: clamp(24px, 5cqi, 56px); max-width: calc(1120px - 2 * clamp(16px, 4cqi, 32px)); }
+.crm .sw[data-plantilla=moderna] .sw-cta :focus-visible { outline-color: var(--sw-sobre); }
+
+/* ========== MINIMALISTA: mucho aire, tipografía protagonista, esquinas rectas ========== */
+.crm .sw[data-plantilla=minimalista] { --sw-r: 0px; --sw-rb: 0px; }
+.crm .sw[data-plantilla=minimalista] .sw-cab { border-bottom: 0; }
+.crm .sw[data-plantilla=minimalista] .sw-marca { font-weight: 600; letter-spacing: .02em; }
+.crm .sw[data-plantilla=minimalista] .sw-monograma { background: none; color: var(--sw-tx); border: 2px solid var(--sw-tx); }
+.crm .sw[data-plantilla=minimalista] .sw-hero, .crm .sw[data-plantilla=minimalista] .sw-sobre, .crm .sw[data-plantilla=minimalista] .sw-testimonios { background: var(--sw-bg); }
+.crm .sw[data-plantilla=minimalista] .sw-hero { padding: clamp(56px, 12cqi, 140px) 0 clamp(48px, 9cqi, 104px); }
+.crm .sw[data-plantilla=minimalista] .sw-hero[data-imagen=no] .sw-hero-grid { grid-template-columns: 1fr; }
+.crm .sw[data-plantilla=minimalista] .sw-hero[data-imagen=no] .sw-hero-media { display: none; }
+.crm .sw[data-plantilla=minimalista] .sw-hero h2 { font-size: clamp(2.25rem, 7.2cqi, 4.75rem); font-weight: 400; line-height: 1.06; max-width: 16ch; letter-spacing: -.015em; }
+.crm .sw[data-plantilla=minimalista] .sw-etiqueta { letter-spacing: .14em; font-weight: 600; }
+.crm .sw[data-plantilla=minimalista] .sw-boton { background: none; color: var(--sw-tx); border: 0; border-bottom: 2px solid var(--sw-acento); padding: 0 2px; min-height: 44px; font-weight: 600; }
+.crm .sw[data-plantilla=minimalista] .sw-boton:hover { box-shadow: none; color: var(--sw-acento-txt); }
+.crm .sw[data-plantilla=minimalista] .sw-titular h3, .crm .sw[data-plantilla=minimalista] .sw-sobre h3 { font-weight: 400; }
+.crm .sw[data-plantilla=minimalista] .sw-servicios .sw-rejilla { grid-template-columns: 1fr; gap: 0; border-bottom: 1px solid var(--sw-lin); }
+.crm .sw[data-plantilla=minimalista] .sw-servicios .sw-tarjeta { display: grid; grid-template-columns: 72px minmax(0, 1fr) minmax(0, 1.5fr); gap: 8px 24px; align-items: baseline; border: 0; border-top: 1px solid var(--sw-lin); background: none; padding: 24px 0; }
+.crm .sw[data-plantilla=minimalista] .sw-num { display: block; color: var(--sw-acento-txt); font-weight: 600; }
+.crm .sw[data-plantilla=minimalista] .sw-tarjeta h4 { margin: 0; font-weight: 600; }
+.crm .sw[data-plantilla=minimalista] .sw-cifras { background: var(--sw-bg); color: var(--sw-tx); border-block: 1px solid var(--sw-lin); }
+.crm .sw[data-plantilla=minimalista] .sw-cifras-lista { text-align: left; }
+.crm .sw[data-plantilla=minimalista] .sw-cifras-lista strong { font-weight: 400; color: var(--sw-acento-txt); }
+.crm .sw[data-plantilla=minimalista] .sw-testimonios .sw-tarjeta, .crm .sw[data-plantilla=minimalista] .sw-datos .sw-tarjeta { background: none; border: 0; border-top: 1px solid var(--sw-lin); padding: 24px 0 0; }
+.crm .sw[data-plantilla=minimalista] .sw-testimonios blockquote p { font-size: 1.1875rem; font-style: italic; }
+.crm .sw[data-plantilla=minimalista] .sw-puntos li::before { background: none; color: var(--sw-acento-txt); border: 0; width: auto; height: auto; font-size: 1rem; }
+.crm .sw[data-plantilla=minimalista] .sw-cta { background: var(--sw-bg); color: var(--sw-tx); border-top: 1px solid var(--sw-lin); }
+.crm .sw[data-plantilla=minimalista] .sw-cta .sw-boton { background: none; color: var(--sw-tx); border: 0; border-bottom: 2px solid var(--sw-acento); }
+.crm .sw[data-plantilla=minimalista] .sw-cta .sw-boton:hover { box-shadow: none; color: var(--sw-acento-txt); }
+.crm .sw[data-plantilla=minimalista] .sw-cta :focus-visible { outline-color: var(--sw-acento-txt); }
+.crm .sw[data-plantilla=minimalista] .sw-pie { background: var(--sw-bg); }
+
+/* ========== Adaptación al ancho del sitio (tableta y móvil) ========== */
+@container sw (max-width: 760px) {
+  .crm .sw .sw-hero-grid, .crm .sw .sw-sobre[data-imagen=si] .sw-sobre-grid { grid-template-columns: 1fr; }
+  .crm .sw .sw-cab-in { justify-content: flex-start; }
+  .crm .sw[data-plantilla=minimalista] .sw-servicios .sw-tarjeta { grid-template-columns: 48px minmax(0, 1fr); }
+  .crm .sw[data-plantilla=minimalista] .sw-servicios .sw-tarjeta p { grid-column: 2; }
+  .crm .sw .sw-cta-in { flex-direction: column; align-items: flex-start; }
+}
+
+/* ========== Modo edición: marco de cada sección y botón "Editar" ========== */
+.crm .sw .sw-bloque { position: relative; }
+.crm .sw .sw-bloque:hover { box-shadow: inset 0 0 0 2px #1c5cab; cursor: pointer; }
+.crm .sw .sw-bloque[data-sel=true] { box-shadow: inset 0 0 0 3px #1c5cab, inset 0 0 0 6px #ffffff; }
+.crm .sw .sw-editar { position: absolute; top: 12px; right: 12px; z-index: 2; display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px; border: 2px solid #ffffff; border-radius: 8px;
+  background: #1c5cab; color: #ffffff; font: 600 .875rem/1.2 system-ui, sans-serif; cursor: pointer; opacity: 0; box-shadow: 0 2px 8px rgba(0, 0, 0, .35); }
+.crm .sw .sw-bloque:hover .sw-editar, .crm .sw .sw-bloque[data-sel=true] .sw-editar, .crm .sw .sw-editar:focus-visible { opacity: 1; }
+.crm .sw .sw-editar:focus-visible { outline: 3px solid #0a0a0a; outline-offset: 2px; }
+@media (forced-colors: active) { .crm .sw .sw-bloque[data-sel=true] { outline: 3px solid Highlight; } .crm .sw .sw-editar { opacity: 1; border-color: ButtonText; } }
