@@ -33,6 +33,7 @@
 
 /* Formularios */
 .ventas-form{display:grid;gap:16px}
+.ventas-form .fila{align-items:start}
 .ventas-form .fila{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .ventas-form textarea{resize:vertical;min-height:88px;font:inherit}
 .ayuda,.ventas-form .ayuda{color:var(--muted);font-size:.8125rem;font-weight:400}
